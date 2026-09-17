@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Орфограммы | Аниме-стиль</title>
+    <title>Орфограммы | Аниме-справочник</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Yusei+Magic&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -12,8 +12,10 @@
             --bg-light: #24243e;
             --neon-pink: #ff007f;
             --neon-blue: #00e5ff;
+            --neon-purple: #9d4edd;
             --text-main: #e0e0e0;
-            --card-bg: rgba(30, 30, 50, 0.85);
+            --text-dim: #a0a0a0;
+            --card-bg: rgba(30, 30, 50, 0.9);
             --glow-pink: 0 0 10px rgba(255, 0, 127, 0.5), 0 0 20px rgba(255, 0, 127, 0.3);
             --glow-blue: 0 0 10px rgba(0, 229, 255, 0.5), 0 0 20px rgba(0, 229, 255, 0.3);
         }
@@ -52,82 +54,288 @@
             100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
         }
 
-        /* --- Меню --- */
+        /* --- Боковое меню (Каталог) --- */
         .sidebar {
-            width: 300px;
-            background: rgba(15, 12, 41, 0.95);
+            width: 320px;
+            background: rgba(15, 12, 41, 0.98);
             border-right: 2px solid var(--neon-pink);
             box-shadow: 5px 0 25px rgba(255, 0, 127, 0.2);
-            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
             height: 100vh;
             position: sticky;
             top: 0;
-            overflow-y: auto;
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 100;
             backdrop-filter: blur(10px);
         }
 
-        .sidebar h1 {
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 2px dashed var(--neon-blue);
+            text-align: center;
+        }
+
+        .sidebar-header h1 {
             font-family: 'Yusei Magic', sans-serif;
             font-size: 1.4rem;
-            padding: 0 20px 15px;
-            border-bottom: 2px dashed var(--neon-blue);
-            margin-bottom: 15px;
             color: var(--neon-blue);
             text-shadow: var(--glow-blue);
-            text-align: center;
             letter-spacing: 2px;
         }
-        .sidebar h1 span { display: block; font-size: 0.8rem; color: var(--neon-pink); text-shadow: var(--glow-pink); }
+        .sidebar-header h1 span { display: block; font-size: 0.8rem; color: var(--neon-pink); text-shadow: var(--glow-pink); }
 
-        .nav-list { list-style: none; }
+        /* Поиск */
+        .search-box {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-family: 'Noto Sans JP', sans-serif;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .search-box input:focus {
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
+        }
+        .search-box input::placeholder { color: rgba(255,255,255,0.3); }
+
+        /* Список меню */
+        .nav-list {
+            list-style: none;
+            overflow-y: auto;
+            flex: 1;
+            padding-bottom: 20px;
+        }
+        .nav-list::-webkit-scrollbar { width: 6px; }
+        .nav-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+        .nav-list::-webkit-scrollbar-thumb { background: var(--neon-pink); border-radius: 3px; }
+
+        .category-title {
+            padding: 15px 20px 5px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--neon-purple);
+            font-weight: 700;
+            border-bottom: 1px solid rgba(157, 78, 221, 0.2);
+            margin-bottom: 5px;
+        }
+
         .nav-list li button {
-            width: 100%; text-align: left; padding: 14px 20px; background: none; border: none;
-            font-size: 0.95rem; cursor: pointer; color: var(--text-main);
-            border-left: 4px solid transparent; transition: all 0.3s ease;
-            font-family: 'Noto Sans JP', sans-serif; position: relative; overflow: hidden;
+            width: 100%;
+            text-align: left;
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+            color: var(--text-main);
+            border-left: 4px solid transparent;
+            transition: all 0.2s ease;
+            font-family: 'Noto Sans JP', sans-serif;
+            position: relative;
         }
+
         .nav-list li button:hover {
-            background-color: rgba(255, 0, 127, 0.1); border-left-color: var(--neon-pink);
-            color: #fff; padding-left: 30px;
+            background-color: rgba(255, 0, 127, 0.1);
+            border-left-color: var(--neon-pink);
+            color: #fff;
+            padding-left: 25px;
         }
+
         .nav-list li button.active {
             background: linear-gradient(90deg, rgba(255, 0, 127, 0.2), transparent);
-            border-left-color: var(--neon-pink); font-weight: 700;
-            color: var(--neon-pink); text-shadow: var(--glow-pink);
+            border-left-color: var(--neon-pink);
+            font-weight: 700;
+            color: var(--neon-pink);
+            text-shadow: var(--glow-pink);
+        }
+
+        /* Скрытие ненужных элементов при поиске */
+        .nav-list li.hidden {
+            display: none;
+        }
+        .category-title.hidden {
+            display: none;
         }
 
         /* --- Контент --- */
-        .content-container { flex: 1; padding: 30px; display: flex; justify-content: center; align-items: flex-start; z-index: 2; }
-        .content {
-            width: 100%; max-width: 850px; background: var(--card-bg); padding: 35px;
-            border-radius: 15px; border: 1px solid rgba(0, 229, 255, 0.3);
-            box-shadow: 0 0 30px rgba(0, 229, 255, 0.1), inset 0 0 20px rgba(0, 0, 0, 0.5);
-            display: none; backdrop-filter: blur(15px); position: relative; overflow: hidden;
+        .content-container {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            z-index: 2;
+            overflow-y: auto;
+            height: 100vh;
         }
-        .content::after {
-            content: '文法'; position: absolute; bottom: -20px; right: -10px;
-            font-size: 120px; font-family: 'Yusei Magic', sans-serif;
-            color: rgba(255, 255, 255, 0.03); z-index: 0; pointer-events: none;
-        }
-        .content.active { display: block; animation: fadeIn 0.5s ease; z-index: 1; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        h2 { font-family: 'Yusei Magic', sans-serif; color: var(--neon-blue); font-size: 1.8rem; margin-bottom: 25px; padding-bottom: 10px; border-bottom: 2px solid var(--neon-pink); display: inline-block; text-shadow: var(--glow-blue); position: relative; z-index: 2; }
-        p, ul, ol { position: relative; z-index: 2; margin-bottom: 15px; }
-        li { margin-bottom: 10px; margin-left: 20px; }
-        .example { color: var(--neon-blue); font-weight: 700; text-shadow: 0 0 5px rgba(0, 229, 255, 0.3); font-style: italic; }
-        .underline { text-decoration: underline; text-decoration-color: var(--neon-pink); text-decoration-thickness: 2px; text-underline-offset: 4px; }
-        .box { border: 2px solid var(--neon-pink); padding: 2px 8px; border-radius: 6px; font-weight: bold; display: inline-block; margin: 0 4px; color: var(--neon-pink); box-shadow: inset 0 0 10px rgba(255, 0, 127, 0.2); background: rgba(255, 0, 127, 0.05); }
-        .note { background: rgba(0, 229, 255, 0.08); border-left: 4px solid var(--neon-blue); padding: 15px 20px; margin: 20px 0; border-radius: 0 10px 10px 0; position: relative; z-index: 2; box-shadow: 0 0 15px rgba(0, 229, 255, 0.1); }
-        .warning { color: var(--neon-pink); font-weight: bold; font-size: 1.2rem; text-shadow: var(--glow-pink); }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; background: rgba(0, 0, 0, 0.3); border-radius: 10px; overflow: hidden; position: relative; z-index: 2; }
-        th, td { border: 1px solid rgba(0, 229, 255, 0.2); padding: 12px; text-align: center; }
-        th { background: rgba(255, 0, 127, 0.15); color: var(--neon-pink); font-weight: bold; text-transform: uppercase; }
+        .content {
+            width: 100%;
+            max-width: 900px;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.1), inset 0 0 20px rgba(0, 0, 0, 0.5);
+            display: none;
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content::after {
+            content: '文法';
+            position: absolute;
+            bottom: -20px;
+            right: -10px;
+            font-size: 150px;
+            font-family: 'Yusei Magic', sans-serif;
+            color: rgba(255, 255, 255, 0.03);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+            z-index: 1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Заголовки */
+        .content h2 {
+            font-family: 'Yusei Magic', sans-serif;
+            color: var(--neon-blue);
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-shadow: var(--glow-blue);
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .content h2 .badge {
+            font-size: 0.8rem;
+            background: rgba(255, 0, 127, 0.2);
+            border: 1px solid var(--neon-pink);
+            color: var(--neon-pink);
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-family: 'Noto Sans JP', sans-serif;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .content .rule-text {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Блоки с примерами */
+        .example-block {
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 4px solid var(--neon-pink);
+            padding: 15px 20px;
+            border-radius: 0 10px 10px 0;
+            margin: 15px 0;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.1);
+        }
+        .example-block strong {
+            color: var(--neon-pink);
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .example {
+            color: var(--neon-blue);
+            font-weight: 700;
+            font-style: italic;
+            text-shadow: 0 0 5px rgba(0, 229, 255, 0.3);
+        }
+
+        .note {
+            background: rgba(0, 229, 255, 0.08);
+            border-left: 4px solid var(--neon-blue);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.1);
+        }
+        .note strong { color: var(--neon-blue); }
+
+        .warning {
+            color: var(--neon-pink);
+            font-weight: bold;
+            text-shadow: var(--glow-pink);
+        }
+
+        .box {
+            border: 2px solid var(--neon-pink);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 0 4px;
+            color: var(--neon-pink);
+            box-shadow: inset 0 0 10px rgba(255, 0, 127, 0.2);
+            background: rgba(255, 0, 127, 0.05);
+        }
+
+        /* Таблицы */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            z-index: 2;
+        }
+        th, td {
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background: rgba(255, 0, 127, 0.15);
+            color: var(--neon-pink);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
         td { color: var(--text-main); }
 
-        /* --- Плеер с громкостью --- */
+        ul, ol { position: relative; z-index: 2; margin-bottom: 15px; padding-left: 20px; }
+        li { margin-bottom: 8px; }
+
+        /* --- Плеер --- */
         .music-player {
             position: fixed; bottom: 20px; right: 20px; z-index: 999;
             display: flex; align-items: center; gap: 10px;
@@ -139,7 +347,6 @@
             box-shadow: 0 0 20px rgba(255, 0, 127, 0.8), 0 0 40px rgba(255, 0, 127, 0.5);
             transform: scale(1.02);
         }
-        
         .music-btn {
             width: 40px; height: 40px; border-radius: 50%; background: var(--neon-pink);
             border: none; color: white; font-size: 1.2rem; cursor: pointer;
@@ -149,79 +356,33 @@
         .music-btn:hover { background: #ff4d94; transform: rotate(15deg); }
         .music-btn.playing { animation: pulse 1s infinite alternate; }
         @keyframes pulse { 0% { box-shadow: 0 0 10px rgba(255, 0, 127, 0.6); } 100% { box-shadow: 0 0 25px rgba(255, 0, 127, 1); } }
+        .music-text { font-size: 0.8rem; color: var(--neon-blue); font-family: 'Yusei Magic', sans-serif; white-space: nowrap; margin-right: 5px; }
         
-        .music-text { 
-            font-size: 0.8rem; color: var(--neon-blue); 
-            font-family: 'Yusei Magic', sans-serif; white-space: nowrap; 
-            margin-right: 5px;
-        }
-
-        /* Скрытый слайдер громкости */
         .volume-container {
-            display: flex;
-            align-items: center;
-            width: 0;
-            overflow: hidden;
-            transition: width 0.4s ease, opacity 0.4s ease;
-            opacity: 0;
+            display: flex; align-items: center; width: 0; overflow: hidden;
+            transition: width 0.4s ease, opacity 0.4s ease; opacity: 0;
         }
+        .music-player:hover .volume-container { width: 100px; opacity: 1; }
 
-        /* При наведении на плеер - показываем слайдер */
-        .music-player:hover .volume-container {
-            width: 100px;
-            opacity: 1;
-        }
-
-        /* Стилизация ползунка */
-        input[type=range] {
-            -webkit-appearance: none;
-            width: 100%;
-            background: transparent;
-            cursor: pointer;
-        }
-
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; cursor: pointer; }
         input[type=range]:focus { outline: none; }
-
-        /* Дорожка */
         input[type=range]::-webkit-slider-runnable-track {
-            width: 100%;
-            height: 6px;
-            background: rgba(0, 229, 255, 0.2);
-            border-radius: 3px;
-            border: 1px solid rgba(0, 229, 255, 0.3);
+            width: 100%; height: 6px; background: rgba(0, 229, 255, 0.2);
+            border-radius: 3px; border: 1px solid rgba(0, 229, 255, 0.3);
         }
-
-        /* Бегунок (звездочка) */
         input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 16px;
-            width: 16px;
-            border-radius: 50%;
-            background: var(--neon-pink);
-            margin-top: -6px; /* Выравнивание по центру дорожки */
-            box-shadow: 0 0 10px rgba(255, 0, 127, 0.8);
-            transition: transform 0.2s;
+            -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%;
+            background: var(--neon-pink); margin-top: -6px;
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.8); transition: transform 0.2s;
         }
-        
-        input[type=range]::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-        }
-
-        /* Для Firefox */
+        input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
         input[type=range]::-moz-range-track {
-            width: 100%;
-            height: 6px;
-            background: rgba(0, 229, 255, 0.2);
-            border-radius: 3px;
-            border: 1px solid rgba(0, 229, 255, 0.3);
+            width: 100%; height: 6px; background: rgba(0, 229, 255, 0.2);
+            border-radius: 3px; border: 1px solid rgba(0, 229, 255, 0.3);
         }
         input[type=range]::-moz-range-thumb {
-            height: 16px;
-            width: 16px;
-            border: none;
-            border-radius: 50%;
-            background: var(--neon-pink);
-            box-shadow: 0 0 10px rgba(255, 0, 127, 0.8);
+            height: 16px; width: 16px; border: none; border-radius: 50%;
+            background: var(--neon-pink); box-shadow: 0 0 10px rgba(255, 0, 127, 0.8);
         }
 
         /* --- Мобильное меню --- */
@@ -229,24 +390,20 @@
             display: none; position: fixed; top: 20px; left: 20px; z-index: 200;
             background: rgba(15, 12, 41, 0.9); color: var(--neon-pink);
             border: 2px solid var(--neon-pink); padding: 10px 15px; border-radius: 8px;
-            cursor: pointer; font-size: 1.2rem; box-shadow: var(--glow-pink); backdrop-filter: blur(5px); transition: all 0.3s;
+            cursor: pointer; font-size: 1.2rem; box-shadow: var(--glow-pink); backdrop-filter: blur(5px);
         }
         .menu-toggle:hover { background: var(--neon-pink); color: #fff; }
 
-        @media (max-width: 768px) {
-            .sidebar { transform: translateX(-100%); position: fixed; width: 280px; }
+        @media (max-width: 900px) {
+            .sidebar { transform: translateX(-100%); position: fixed; width: 300px; }
             .sidebar.open { transform: translateX(0); }
             .menu-toggle { display: block; }
-            .content-container { padding: 80px 15px 80px; }
-            .content { padding: 20px; }
-            h2 { font-size: 1.4rem; }
+            .content-container { padding: 80px 15px 80px; height: auto; }
+            .content { padding: 25px; }
+            h2 { font-size: 1.5rem; }
             .music-player { bottom: 15px; right: 15px; padding: 6px 12px 6px 6px; }
             .music-btn { width: 35px; height: 35px; font-size: 1rem; }
-            /* На мобильных слайдер всегда виден, так как нет наведения мышкой */
-            .music-player .volume-container {
-                width: 80px;
-                opacity: 1;
-            }
+            .music-player .volume-container { width: 80px; opacity: 1; }
         }
     </style>
 </head>
@@ -261,14 +418,12 @@
             <svg id="iconPause" style="display:none;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
         </button>
         <span class="music-text">♪ Lo-Fi</span>
-        
-        <!-- Контейнер для ползунка громкости -->
         <div class="volume-container">
             <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" title="Громкость">
         </div>
     </div>
 
-    <!-- ВАЖНО: Ссылка на локальный файл music.mp3 -->
+    <!-- АУДИО -->
     <audio id="bgMusic" loop>
         <source src="music.mp3" type="audio/mpeg">
         Ваш браузер не поддерживает аудио.
@@ -276,135 +431,254 @@
 
     <button class="menu-toggle" id="menuToggle">✿ Меню</button>
 
+    <!-- БОКОВОЕ МЕНЮ -->
     <aside class="sidebar" id="sidebar">
-        <h1>日本語 <span>Орфограммы</span></h1>
+        <div class="sidebar-header">
+            <h1>日本語 <span>Справочник орфограмм</span></h1>
+        </div>
+        
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 Поиск орфограммы...">
+        </div>
+
         <ul class="nav-list" id="navList">
-            <li><button class="active" data-target="ortho1">№1 (Безударные гласные)</button></li>
-            <li><button data-target="ortho2">№2 (Непроверяемые)</button></li>
-            <li><button data-target="ortho3">№3 (Согласные в корне)</button></li>
-            <li><button data-target="ortho4">№4 (Непроизносимые)</button></li>
-            <li><button data-target="ortho5">№5 (ЖИ-ШИ)</button></li>
-            <li><button data-target="ortho6">№6 (Разделительный Ь/Ъ)</button></li>
-            <li><button data-target="ortho7">№7 (Предлоги)</button></li>
-            <li><button data-target="ortho8">№8 (Ь после шипящих)</button></li>
-            <li><button data-target="ortho9">№9 (ЧК, ЧН, НЩ)</button></li>
-            <li><button data-target="ortho10">№10 (Приставки)</button></li>
-            <li><button data-target="ortho11">№11 (Приставки на З/С)</button></li>
-            <li><button data-target="ortho12">№12 (Чередование А/О)</button></li>
-            <li><button data-target="ortho13">№13 (РАСТ/РОС)</button></li>
-            <li><button data-target="ortho14">№14 (О/Ё после шипящих)</button></li>
-            <li><button data-target="ortho15">№15 (Ы/И после Ц)</button></li>
-            <li><button data-target="ortho16">№16 (Заглавные буквы)</button></li>
-            <li><button data-target="ortho17">№17 (Падежи)</button></li>
-            <li><button data-target="ortho18">№18 (О/Е в суффиксах)</button></li>
-            <li><button data-target="ortho19">№19 (Окончания прилагательных)</button></li>
+            <!-- Категория 1 -->
+            <li class="category-title">Безударные гласные</li>
+            <li><button class="active" data-target="ortho1">№1 Безударные гласные в корне</button></li>
+            <li><button data-target="ortho2">№2 Непроверяемые гласные</button></li>
+            <li><button data-target="ortho12">№12 Чередование -ЛАГ-/-ЛОЖ-</button></li>
+            <li><button data-target="ortho13">№13 Чередование -РАСТ-/-РОС-</button></li>
+            
+            <!-- Категория 2 -->
+            <li class="category-title">Согласные в корне</li>
+            <li><button data-target="ortho3">№3 Проверяемые согласные</button></li>
+            <li><button data-target="ortho4">№4 Непроизносимые согласные</button></li>
+            
+            <!-- Категория 3 -->
+            <li class="category-title">Гласные после шипящих</li>
+            <li><button data-target="ortho5">№5 ЖИ-ШИ, ЧА-ЩА, ЧУ-ЩУ</button></li>
+            <li><button data-target="ortho14">№14 О/Ё после шипящих</button></li>
+            <li><button data-target="ortho15">№15 Ы/И после Ц</button></li>
+            
+            <!-- Категория 4 -->
+            <li class="category-title">Разделительные знаки</li>
+            <li><button data-target="ortho6">№6 Разделительный Ь и Ъ</button></li>
+            <li><button data-target="ortho8">№8 Ь после шипящих</button></li>
+            
+            <!-- Категория 5 -->
+            <li class="category-title">Правописание приставок</li>
+            <li><button data-target="ortho10">№10 Неизменяемые приставки</button></li>
+            <li><button data-target="ortho11">№11 Приставки на -З/-С</button></li>
+            
+            <!-- Категория 6 -->
+            <li class="category-title">Прочее</li>
+            <li><button data-target="ortho7">№7 Предлоги</button></li>
+            <li><button data-target="ortho9">№9 ЧК, ЧН, НЩ</button></li>
+            <li><button data-target="ortho16">№16 Заглавные буквы</button></li>
+            <li><button data-target="ortho17">№17 Падежи</button></li>
+            <li><button data-target="ortho18">№18 О/Е в суффиксах</button></li>
+            <li><button data-target="ortho19">№19 Окончания прилагательных</button></li>
         </ul>
     </aside>
 
+    <!-- КОНТЕНТ -->
     <main class="content-container">
+        
+        <!-- №1 -->
         <div id="ortho1" class="content active">
-            <h2>Орфограмма №1</h2>
-            <p>Чтобы не ошибиться в написании <strong>безударной гласной</strong> в корне слова, нужно изменить слово или подобрать проверочное однокоренное слово, в котором проверяемая гласная была под ударением.</p>
-            <p class="example">Лесной — (лéс)</p>
+            <h2>Орфограмма №1 <span class="badge">Гласные</span></h2>
+            <p class="rule-text">Чтобы не ошибиться в написании <strong>безударной гласной</strong> в корне слова, нужно изменить слово или подобрать проверочное однокоренное слово, в котором проверяемая гласная была под ударением.</p>
+            <div class="example-block">
+                <strong>Примеры:</strong>
+                <p class="example">Лесной — (лéс)</p>
+                <p class="example">Вода — (вóды)</p>
+                <p class="example">Молодой — (мóлодость)</p>
+            </div>
         </div>
+
+        <!-- №2 -->
         <div id="ortho2" class="content">
-            <h2>Орфограмма №2</h2>
-            <p>Правописание безударных <strong>непроверяемых</strong> и <strong>непроверяемых согласных</strong> нужно запоминать.</p>
-            <p class="example">Октябрь, футбол.</p>
+            <h2>Орфограмма №2 <span class="badge">Гласные</span></h2>
+            <p class="rule-text">Правописание безударных <strong>непроверяемых гласных</strong> и <strong>непроверяемых согласных</strong> нужно запоминать (или проверять по словарю).</p>
+            <div class="example-block">
+                <strong>Примеры:</strong>
+                <p class="example">Октябрь, футбол, вокзал, рюкзак.</p>
+            </div>
         </div>
+
+        <!-- №3 -->
         <div id="ortho3" class="content">
-            <h2>Орфограмма №3</h2>
-            <p>Чтобы не ошибиться в написании <strong>согласных в корне слова</strong>, нужно их изменить (слово) или подобрать такое слово, где после этой буквы будет стоять гласная или согласные <em>л, м, н, р</em>.</p>
-            <p class="example">Дуб — дубы, падеж — падежи.</p>
+            <h2>Орфограмма №3 <span class="badge">Согласные</span></h2>
+            <p class="rule-text">Чтобы не ошибиться в написании <strong>согласных в корне слова</strong>, нужно их изменить (слово) или подобрать такое слово, где после этой буквы будет стоять гласная или согласные <em>л, м, н, р</em>.</p>
+            <div class="example-block">
+                <strong>Примеры:</strong>
+                <p class="example">Дуб — дубы, падеж — падежи.</p>
+                <p class="example">Сказка — сказочка, просьба — просить.</p>
+            </div>
         </div>
+
+        <!-- №4 -->
         <div id="ortho4" class="content">
-            <h2>Орфограмма №4</h2>
-            <p>Чтобы не ошибиться в написании <strong>непроизносимых согласных</strong>, нужно изменить это слово так, чтобы этот согласный отчетливо слышался.</p>
-            <p class="example">Устный — (уста), поздний — (опоздать).</p>
+            <h2>Орфограмма №4 <span class="badge">Согласные</span></h2>
+            <p class="rule-text">Чтобы не ошибиться в написании <strong>непроизносимых согласных</strong>, нужно изменить это слово так, чтобы этот согласный отчетливо слышался.</p>
+            <div class="example-block">
+                <strong>Примеры:</strong>
+                <p class="example">Устный — (уста), поздний — (опоздать).</p>
+                <p class="example">Солнце — (солнечный), сердце — (сердечко).</p>
+            </div>
+            <div class="note">
+                <strong>Запомни:</strong> <span class="example">лестница, праздник, чувство, сверстник.</span>
+            </div>
         </div>
+
+        <!-- №5 -->
         <div id="ortho5" class="content">
-            <h2>Орфограмма №5</h2>
-            <p>После шипящих <strong>Ж, Ч, Ш, Щ</strong> пишутся гласные <strong>И, У, А</strong>. Не пишутся <strong>Ы, Ю, Я</strong>.</p>
-            <p class="example">Чаща, щука, жизнь, лыжи.</p>
+            <h2>Орфограмма №5 <span class="badge">Шипящие</span></h2>
+            <p class="rule-text">После шипящих <strong>Ж, Ч, Ш, Щ</strong> пишутся гласные <strong>И, У, А</strong>. Не пишутся <strong>Ы, Ю, Я</strong>.</p>
+            <div class="example-block">
+                <strong>Примеры:</strong>
+                <p class="example">Чаща, щука, жизнь, лыжи.</p>
+            </div>
             <div class="note">
-                <p><strong>Исключения:</strong> <span class="example">Брошюра, парашют, жюри.</span></p>
+                <strong>Исключения:</strong> <span class="example">Брошюра, парашют, жюри.</span>
             </div>
         </div>
+
+        <!-- №6 -->
         <div id="ortho6" class="content">
-            <h2>Орфограмма №6</h2>
-            <p><strong>Ъ</strong> пишется перед <strong>Е, Ё, Ю, Я</strong> после приставок на согласную.</p>
-            <p><strong>Ь</strong> пишется в корне слова перед <strong>Е, Ё, Ю, Я, И</strong>.</p>
-            <p><span class="box">Ъ</span> Е, Ё, Ю, Я <br> <span class="box">Ь</span> Е, Ё, Ю, Я, И</p>
+            <h2>Орфограмма №6 <span class="badge">Разделительные</span></h2>
+            <p class="rule-text"><strong>Ъ</strong> пишется перед <strong>Е, Ё, Ю, Я</strong> после приставок на согласную.</p>
+            <p class="rule-text"><strong>Ь</strong> пишется в корне слова перед <strong>Е, Ё, Ю, Я, И</strong>.</p>
+            <div class="example-block">
+                <strong>Примеры:</strong>
+                <p><span class="box">Ъ</span> Е, Ё, Ю, Я — <span class="example">съел, объявление, подъезд</span></p>
+                <p><span class="box">Ь</span> Е, Ё, Ю, Я, И — <span class="example">вьюга, семья, воробьи</span></p>
+            </div>
         </div>
+
+        <!-- №7 -->
         <div id="ortho7" class="content">
-            <h2>Орфограмма №7</h2>
-            <p><strong>Предлоги</strong> с другими словами пишутся раздельно. Между предлогом и словом можно вставить другое слово.</p>
+            <h2>Орфограмма №7 <span class="badge">Предлоги</span></h2>
+            <p class="rule-text"><strong>Предлоги</strong> с другими словами пишутся раздельно. Между предлогом и словом можно вставить другое слово или вопрос.</p>
+            <div class="example-block">
+                <strong>Пример:</strong>
+                <p class="example">В (большом) лесу; на (высокой) горе.</p>
+            </div>
             <div class="note">
-                <p><strong>Вопрос:</strong> Большой? (Пример: <em>в большом лесу</em>)</p>
+                <strong>Важно:</strong> Предлоги никогда не пишутся через дефис (кроме <em>из-за, из-под</em>).
             </div>
         </div>
+
+        <!-- №8 -->
         <div id="ortho8" class="content">
-            <h2>Орфограмма №8</h2>
-            <p><strong>Ь</strong> после шипящих на конце слова пишется у существительных <strong>3 склонения</strong>. В других случаях <span class="warning">не пишется</span>.</p>
-            <p class="example">Рожь (3 скл.), много туч (1 скл.).</p>
-        </div>
-        <div id="ortho9" class="content">
-            <h2>Орфограмма №9</h2>
-            <p>В сочетаниях <strong>ЧК, ЧН, ЧТ, ЩН, РЩ, НЩ</strong> не пишется мягкий знак.</p>
-            <p class="example">Мощный, хищник, гонщик.</p>
-        </div>
-        <div id="ortho10" class="content">
-            <h2>Орфограмма №10</h2>
-            <p>Буквы на месте гласных и согласных <strong>в приставках</strong>, кроме приставок на -З (-С), пишутся одинаково независимо от произношения. Их можно проверить, подобрав другие слова с данной приставкой, где гласные и согласные в приставке находятся в сильной позиции.</p>
-            <p class="example">Запахнуть — запах; подпись — подбежать.</p>
-            <p><strong>Список приставок:</strong> <span class="example">за, в, об, под, над, с, от, пред, пере, за, на, во, об, подо, надо, со, ото.</span></p>
-        </div>
-        <div id="ortho11" class="content">
-            <h2>Орфограмма №11</h2>
-            <p>В приставках на <strong>-З (-С)</strong> перед буквами обозначающими <strong>звонкие согласные</strong>, пишется <strong>З</strong>, перед буквами, обозначающими <strong>глухие согласные</strong> — <strong>С</strong>.</p>
-            <p class="example">Разбудить (перед звонкой); расписание (перед глухой).</p>
-            <p><strong>Приставки:</strong> <span class="example">раз-рас, из-ис, воз-вос, без-бес, вз-вс, низ-нис.</span></p>
-        </div>
-        <div id="ortho12" class="content">
-            <h2>Орфограмма №12</h2>
-            <p>В чередующихся корнях <strong>-ЛАГ- / -ЛОЖ-</strong> в безударном положении <strong>А</strong> пишется тогда, когда после корня стоит суффикс <strong>-А-</strong>, в остальных случаях пишется <strong>О</strong>.</p>
-            <p class="example">Изложение (нет -а-).</p>
-        </div>
-        <div id="ortho13" class="content">
-            <h2>Орфограмма №13</h2>
-            <p>В чередующихся корнях <strong>-РАСТ- (-РАЩ-) / -РОС-</strong> буква <strong>А</strong> пишется перед <strong>СТ, Щ</strong>. В остальных случаях пишется <strong>О</strong>.</p>
-            <p class="example">Растение, Ростов, Ростислав, росточек. <br> <strong>Исключения:</strong> отрасль, росток, Ростов, Ростислав.</p>
-            <p class="example">Василий быстро вырос, выросший росток, рост.</p>
-        </div>
-        <div id="ortho14" class="content">
-            <h2>Орфограмма №14</h2>
-            <p>После шипящих <strong>в корне слова</strong> пишется буква <strong>Ё</strong>, если можно подобрать однокоренное слово с <strong>Е</strong>. Если слово с <strong>Е</strong> подобрать нельзя, то в корне после шипящей пишем <strong>О</strong>.</p>
-            <p class="example">Чёрный (чернеть), шёлковый (шелка), шорты (искл.)</p>
-        </div>
-        <div id="ortho15" class="content">
-            <h2>Орфограмма №15</h2>
-            <p>После <strong>Ц</strong> пишется <strong>И</strong>:</p>
-            <ol>
-                <li>В корнях (цифра, циркуль)</li>
-                <li>В словах, которые заканчиваются на <strong>-ЦИЯ</strong> (нация, акация, инструкция)</li>
-            </ol>
-            <p>После <strong>Ц</strong> пишется <strong>Ы</strong>:</p>
-            <ul>
-                <li>В суффиксах (сестрицын, птицын)</li>
-                <li>В окончаниях (сестрицын, птицын, улицы)</li>
-                <li>В словах - <strong>ИСКЛЮЧЕНИЯХ</strong>: <span class="example">цыган, цыпочки, цыц, цыпленок.</span></li>
-            </ul>
-        </div>
-        <div id="ortho16" class="content">
-            <h2>Орфограмма №16</h2>
-            <p><strong>Имена собственные</strong> пишутся с большой буквы.</p>
-            <p>Заголовки книг, названия журналов, газет, картин, кинофильмов, спектаклей, заводов, фабрик, кораблей и т.д. не только пишутся с большой буквы, но и заключаются в кавычки.</p>
-            <div class="note">
-                <p>Издательство «Просвещение», журнал «Огонек».</p>
+            <h2>Орфограмма №8 <span class="badge">Шипящие</span></h2>
+            <p class="rule-text"><strong>Ь</strong> после шипящих на конце слова пишется у существительных <strong>3 склонения</strong> и у глаголов. В других случаях <span class="warning">не пишется</span>.</p>
+            <div class="example-block">
+                <strong>Примеры:</strong>
+                <p class="example">Рожь (3 скл.), много туч (1 скл.).</p>
+                <p class="example">Печь (глагол), стеречь.</p>
             </div>
         </div>
+
+        <!-- №9 -->
+        <div id="ortho9" class="content">
+            <h2>Орфограмма №9 <span class="badge">Сочетания</span></h2>
+            <p class="rule-text">В сочетаниях <strong>ЧК, ЧН, ЧТ, ЩН, РЩ, НЩ</strong> не пишется мягкий знак.</p>
+            <div class="example-block">
+                <strong>Примеры:</strong>
+                <p class="example">Мощный, хищник, гонщик, ручка, точный.</p>
+            </div>
+        </div>
+
+        <!-- №10 -->
+        <div id="ortho10" class="content">
+            <h2>Орфограмма №10 <span class="badge">Приставки</span></h2>
+            <p class="rule-text">Буквы на месте гласных и согласных <strong>в приставках</strong>, кроме приставок на -З (-С), пишутся одинаково независимо от произношения. Их можно проверить, подобрав другие слова с данной приставкой, где гласные и согласные в приставке находятся в сильной позиции.</p>
+            <div class="example-block">
+                <strong>Примеры:</strong>
+                <p class="example">Запахнуть — запах; подпись — подбежать.</p>
+            </div>
+            <div class="note">
+                <strong>Список неизменяемых приставок:</strong> <span class="example">за, в, об, под, над, с, от, пред, пере, за, на, во, об, подо, надо, со, ото.</span>
+            </div>
+        </div>
+
+        <!-- №11 -->
+        <div id="ortho11" class="content">
+            <h2>Орфограмма №11 <span class="badge">Приставки</span></h2>
+            <p class="rule-text">В приставках на <strong>-З (-С)</strong> перед буквами обозначающими <strong>звонкие согласные</strong>, пишется <strong>З</strong>, перед буквами, обозначающими <strong>глухие согласные</strong> — <strong>С</strong>.</p>
+            <div class="example-block">
+                <strong>Примеры:</strong>
+                <p class="example">Разбудить (перед звонкой); расписание (перед глухой).</p>
+            </div>
+            <div class="note">
+                <strong>Приставки:</strong> <span class="example">раз-рас, из-ис, воз-вос, без-бес, вз-вс, низ-нис.</span>
+            </div>
+        </div>
+
+        <!-- №12 -->
+        <div id="ortho12" class="content">
+            <h2>Орфограмма №12 <span class="badge">Чередование</span></h2>
+            <p class="rule-text">В чередующихся корнях <strong>-ЛАГ- / -ЛОЖ-</strong> в безударном положении <strong>А</strong> пишется тогда, когда после корня стоит суффикс <strong>-А-</strong>, в остальных случаях пишется <strong>О</strong>.</p>
+            <div class="example-block">
+                <strong>Примеры:</strong>
+                <p class="example">Излагать (есть -а-), изложение (нет -а-).</p>
+                <p class="example">Предполагать, предположить.</p>
+            </div>
+        </div>
+
+        <!-- №13 -->
+        <div id="ortho13" class="content">
+            <h2>Орфограмма №13 <span class="badge">Чередование</span></h2>
+            <p class="rule-text">В чередующихся корнях <strong>-РАСТ- (-РАЩ-) / -РОС-</strong> буква <strong>А</strong> пишется перед <strong>СТ, Щ</strong>. В остальных случаях пишется <strong>О</strong>.</p>
+            <div class="example-block">
+                <strong>Примеры:</strong>
+                <p class="example">Растение, Ростов, Ростислав, росточек.</p>
+                <p class="example">Василий быстро вырос, выросший росток, рост.</p>
+            </div>
+            <div class="note">
+                <strong>Исключения:</strong> <span class="example">отрасль, росток, Ростов, Ростислав.</span>
+            </div>
+        </div>
+
+        <!-- №14 -->
+        <div id="ortho14" class="content">
+            <h2>Орфограмма №14 <span class="badge">Шипящие</span></h2>
+            <p class="rule-text">После шипящих <strong>в корне слова</strong> пишется буква <strong>Ё</strong>, если можно подобрать однокоренное слово с <strong>Е</strong>. Если слово с <strong>Е</strong> подобрать нельзя, то в корне после шипящей пишем <strong>О</strong>.</p>
+            <div class="example-block">
+                <strong>Примеры:</strong>
+                <p class="example">Чёрный (чернеть), шёлковый (шелка), шорты (искл.)</p>
+            </div>
+        </div>
+
+        <!-- №15 -->
+        <div id="ortho15" class="content">
+            <h2>Орфограмма №15 <span class="badge">Шипящие</span></h2>
+            <p class="rule-text">После <strong>Ц</strong> пишется <strong>И</strong> в корнях (цифра, циркуль) и в словах на <strong>-ЦИЯ</strong> (нация, акация).</p>
+            <p class="rule-text">После <strong>Ц</strong> пишется <strong>Ы</strong> в суффиксах, окончаниях и в словах-исключениях.</p>
+            <div class="example-block">
+                <strong>Примеры:</strong>
+                <p class="example">Сестрицын, птицын, улицы.</p>
+            </div>
+            <div class="note">
+                <strong>Исключения:</strong> <span class="example">цыган, цыпочки, цыц, цыпленок.</span>
+            </div>
+        </div>
+
+        <!-- №16 -->
+        <div id="ortho16" class="content">
+            <h2>Орфограмма №16 <span class="badge">Заглавные</span></h2>
+            <p class="rule-text"><strong>Имена собственные</strong> пишутся с большой буквы. Заголовки книг, названия журналов, газет, картин, кинофильмов, спектаклей, заводов, фабрик, кораблей и т.д. не только пишутся с большой буквы, но и заключаются в кавычки.</p>
+            <div class="example-block">
+                <strong>Примеры:</strong>
+                <p class="example">Издательство «Просвещение», журнал «Огонек», город Москва.</p>
+            </div>
+        </div>
+
+        <!-- №17 -->
         <div id="ortho17" class="content">
-            <h2>Орфограмма №17 (Падежи)</h2>
+            <h2>Орфограмма №17 <span class="badge">Падежи</span></h2>
+            <p class="rule-text">Чтобы правильно написать безударное падежное окончание существительного, нужно определить склонение и падеж.</p>
             <table>
                 <thead><tr><th>Падеж</th><th>Вопросы</th></tr></thead>
                 <tbody>
@@ -416,10 +690,6 @@
                     <tr><td>П.п.</td><td>о ком? о чем?</td></tr>
                 </tbody>
             </table>
-            <div class="note">
-                <p class="warning">!</p>
-                <p>В словах на -ИЙ, -ИЯ, -ИЕ пишется <strong>И</strong>.</p>
-            </div>
             <table>
                 <thead><tr><th></th><th>1 скл.</th><th>2 скл.</th><th>3 скл.</th></tr></thead>
                 <tbody>
@@ -428,19 +698,33 @@
                     <tr><td>П.п.</td><td>Е</td><td>Е</td><td>И</td></tr>
                 </tbody>
             </table>
-            <p class="example">Поехал к бабушке (1 скл). Отдыхал в Индии (3 скл).</p>
+            <div class="example-block">
+                <p class="example">Поехал к бабушке (1 скл). Отдыхал в Индии (3 скл).</p>
+            </div>
         </div>
+
+        <!-- №18 -->
         <div id="ortho18" class="content">
-            <h2>Орфограмма №18</h2>
-            <p>После шипящих <strong>и Ц</strong> в окончаниях существительных пишется <strong>О</strong>, без ударения — <strong>Е</strong>.</p>
-            <p class="example">Врачом, свинцом.</p>
+            <h2>Орфограмма №18 <span class="badge">Суффиксы</span></h2>
+            <p class="rule-text">После шипящих <strong>и Ц</strong> в окончаниях и суффиксах существительных и прилагательных пишется <strong>О</strong> под ударением, без ударения — <strong>Е</strong>.</p>
+            <div class="example-block">
+                <strong>Примеры:</strong>
+                <p class="example">Врачом, свинцом, товарищем, ситцем.</p>
+            </div>
         </div>
+
+        <!-- №19 -->
         <div id="ortho19" class="content">
-            <h2>Орфограмма №19</h2>
-            <p>Чтобы правильно написать <strong>окончание прилагательного</strong>, нужно задать к нему вопрос.</p>
-            <p>Если в вопросе окончание <strong>-ОЙ</strong>, то в прилагательном будет <strong>-ЫЙ/-ИЙ</strong> (в зависимости от основы).</p>
-            <p class="example">(Какой?) Син<u>ий</u>.</p>
+            <h2>Орфограмма №19 <span class="badge">Прилагательные</span></h2>
+            <p class="rule-text">Чтобы правильно написать <strong>окончание прилагательного</strong>, нужно задать к нему вопрос от существительного. Окончание вопроса подскажет окончание прилагательного.</p>
+            <div class="example-block">
+                <strong>Примеры:</strong>
+                <p class="example">(Какой?) Син<u>ий</u>.</p>
+                <p class="example">(Какого?) Син<u>его</u>.</p>
+                <p class="example">(Каким?) Син<u>им</u>.</p>
+            </div>
         </div>
+
     </main>
 
     <script>
@@ -455,6 +739,7 @@
             const iconPlay = document.getElementById('iconPlay');
             const iconPause = document.getElementById('iconPause');
             const volumeSlider = document.getElementById('volumeSlider');
+            const searchInput = document.getElementById('searchInput');
 
             // Сакура
             function createSakura() {
@@ -480,15 +765,13 @@
             }
             createSakura();
 
-            // Установка начальной громкости
+            // Громкость
             bgMusic.volume = volumeSlider.value;
-
-            // Изменение громкости через слайдер
             volumeSlider.addEventListener('input', (e) => {
                 bgMusic.volume = e.target.value;
             });
 
-            // Музыка (Локальный файл)
+            // Музыка
             playBtn.addEventListener('click', () => {
                 if (bgMusic.paused) {
                     bgMusic.play().then(() => {
@@ -507,7 +790,7 @@
                 }
             });
 
-            // Вкладки
+            // ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК
             navButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     navButtons.forEach(btn => btn.classList.remove('active'));
@@ -515,15 +798,49 @@
                     button.classList.add('active');
                     const targetId = button.getAttribute('data-target');
                     const targetContent = document.getElementById(targetId);
-                    if (targetContent) targetContent.classList.add('active');
-                    if (window.innerWidth <= 768) sidebar.classList.remove('open');
+                    if (targetContent) {
+                        targetContent.classList.add('active');
+                        // Прокрутка контента вверх при переключении
+                        document.querySelector('.content-container').scrollTop = 0;
+                    }
+                    if (window.innerWidth <= 900) sidebar.classList.remove('open');
                 });
             });
 
-            // Меню
+            // ПОИСК ПО МЕНЮ
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+                const allListItems = document.querySelectorAll('.nav-list li');
+                
+                allListItems.forEach(item => {
+                    if (item.classList.contains('category-title')) {
+                        // Скрываем заголовки категорий при поиске
+                        item.classList.add('hidden');
+                    } else {
+                        const button = item.querySelector('button');
+                        if (button) {
+                            const text = button.textContent.toLowerCase();
+                            if (text.includes(query)) {
+                                item.classList.remove('hidden');
+                            } else {
+                                item.classList.add('hidden');
+                            }
+                        }
+                    }
+                });
+
+                // Если поиск пуст, показываем все заголовки
+                if (query === '') {
+                    document.querySelectorAll('.category-title').forEach(title => {
+                        title.classList.remove('hidden');
+                    });
+                }
+            });
+
+            // Мобильное меню
             menuToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
             document.addEventListener('click', (event) => {
-                if (window.innerWidth <= 768) {
+                if (window.innerWidth <= 900) {
                     if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
                         sidebar.classList.remove('open');
                     }
