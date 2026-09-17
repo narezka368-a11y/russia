@@ -174,7 +174,6 @@
             overflow: hidden;
         }
 
-        /* Декоративный японский символ на фоне карточки */
         .content::after {
             content: '文法';
             position: absolute;
@@ -232,7 +231,6 @@
             margin-left: 20px;
         }
 
-        /* --- Стили для примеров и выделений --- */
         .example {
             color: var(--neon-blue);
             font-weight: 700;
@@ -277,7 +275,6 @@
             text-shadow: var(--glow-pink);
         }
 
-        /* --- Таблицы --- */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -305,6 +302,67 @@
 
         td {
             color: var(--text-main);
+        }
+
+        /* --- Плеер (Аниме-стиль) --- */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(15, 12, 41, 0.9);
+            border: 2px solid var(--neon-pink);
+            border-radius: 50px;
+            padding: 8px 15px 8px 8px;
+            box-shadow: var(--glow-pink);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .music-player:hover {
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.8), 0 0 40px rgba(255, 0, 127, 0.5);
+            transform: scale(1.05);
+        }
+
+        .music-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--neon-pink);
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.6);
+            position: relative;
+        }
+
+        .music-btn:hover {
+            background: #ff4d94;
+            transform: rotate(15deg);
+        }
+
+        .music-btn.playing {
+            animation: pulse 1s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 10px rgba(255, 0, 127, 0.6); }
+            100% { box-shadow: 0 0 25px rgba(255, 0, 127, 1), 0 0 40px rgba(255, 0, 127, 0.6); }
+        }
+
+        .music-text {
+            font-size: 0.8rem;
+            color: var(--neon-blue);
+            font-family: 'Yusei Magic', sans-serif;
+            white-space: nowrap;
         }
 
         /* --- Адаптивность --- */
@@ -344,12 +402,18 @@
                 display: block;
             }
             .content-container {
-                padding: 80px 15px 20px;
+                padding: 80px 15px 80px;
             }
             .content {
                 padding: 20px;
             }
             h2 { font-size: 1.4rem; }
+            .music-player {
+                bottom: 15px;
+                right: 15px;
+                padding: 6px 12px 6px 6px;
+            }
+            .music-btn { width: 35px; height: 35px; font-size: 1rem; }
         }
     </style>
 </head>
@@ -357,6 +421,24 @@
 
     <!-- Контейнер для лепестков сакуры (заполняется через JS) -->
     <div id="sakura-container"></div>
+
+    <!-- Плеер -->
+    <div class="music-player" id="musicPlayer">
+        <button class="music-btn" id="playBtn" title="Включить/Выключить музыку">
+            <!-- Иконка Play (по умолчанию) -->
+            <svg id="iconPlay" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            <!-- Иконка Pause (скрыта) -->
+            <svg id="iconPause" style="display:none;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+        </button>
+        <span class="music-text">♪ Lo-Fi Anime</span>
+    </div>
+
+    <!-- АУДИО ТЕГ -->
+    <!-- Ссылка на бесплатный лоу-фай трек (можно заменить на свой) -->
+    <audio id="bgMusic" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
+        Ваш браузер не поддерживает аудио.
+    </audio>
 
     <button class="menu-toggle" id="menuToggle">✿ Меню</button>
 
@@ -583,19 +665,22 @@
             const sidebar = document.getElementById('sidebar');
             const menuToggle = document.getElementById('menuToggle');
             const sakuraContainer = document.getElementById('sakura-container');
+            const bgMusic = document.getElementById('bgMusic');
+            const playBtn = document.getElementById('playBtn');
+            const iconPlay = document.getElementById('iconPlay');
+            const iconPause = document.getElementById('iconPause');
 
             // --- Генерация лепестков сакуры ---
             function createSakura() {
-                const sakuraCount = 20; // Количество лепестков
+                const sakuraCount = 20; 
                 for (let i = 0; i < sakuraCount; i++) {
                     const sakura = document.createElement('div');
                     sakura.classList.add('sakura');
                     
-                    // Случайные параметры для каждого лепестка
-                    const size = Math.random() * 15 + 10; // Размер от 10 до 25px
-                    const left = Math.random() * 100; // Позиция по горизонтали
-                    const duration = Math.random() * 5 + 5; // Время падения от 5 до 10с
-                    const delay = Math.random() * 5; // Задержка перед началом
+                    const size = Math.random() * 15 + 10; 
+                    const left = Math.random() * 100; 
+                    const duration = Math.random() * 5 + 5; 
+                    const delay = Math.random() * 5; 
 
                     sakura.style.width = `${size}px`;
                     sakura.style.height = `${size}px`;
@@ -603,7 +688,6 @@
                     sakura.style.animationDuration = `${duration}s`;
                     sakura.style.animationDelay = `${delay}s`;
                     
-                    // Рисуем лепесток с помощью CSS (форма капли/сердечка)
                     sakura.style.background = 'radial-gradient(circle at 30% 30%, #ffb7c5, #ff007f)';
                     sakura.style.borderRadius = '50% 0 50% 50%';
                     sakura.style.transform = `rotate(${Math.random() * 360}deg)`;
@@ -614,6 +698,25 @@
                 }
             }
             createSakura();
+
+            // --- Управление музыкой ---
+            // Примечание: некоторые браузеры (например, Chrome) блокируют автовоспроизведение,
+            // поэтому музыку нужно включать вручную.
+            playBtn.addEventListener('click', () => {
+                if (bgMusic.paused) {
+                    bgMusic.play().catch(error => {
+                        console.log("Автовоспроизведение заблокировано браузером:", error);
+                    });
+                    iconPlay.style.display = 'none';
+                    iconPause.style.display = 'block';
+                    playBtn.classList.add('playing');
+                } else {
+                    bgMusic.pause();
+                    iconPlay.style.display = 'block';
+                    iconPause.style.display = 'none';
+                    playBtn.classList.remove('playing');
+                }
+            });
 
             // --- Переключение вкладок ---
             navButtons.forEach(button => {
