@@ -319,56 +319,6 @@
         ul, ol { position: relative; z-index: 2; margin-bottom: 15px; padding-left: 20px; }
         li { margin-bottom: 8px; }
 
-        /* --- Плеер --- */
-        .music-player {
-            position: fixed; bottom: 20px; right: 20px; z-index: 999;
-            display: flex; align-items: center; gap: 10px;
-            background: rgba(15, 12, 41, 0.95); border: 2px solid var(--neon-pink);
-            border-radius: 50px; padding: 8px 15px 8px 8px;
-            box-shadow: var(--glow-pink); backdrop-filter: blur(10px); transition: all 0.4s ease;
-        }
-        .music-player:hover {
-            box-shadow: 0 0 20px rgba(255, 0, 127, 0.8), 0 0 40px rgba(255, 0, 127, 0.5);
-            transform: scale(1.02);
-        }
-        .music-btn {
-            width: 40px; height: 40px; border-radius: 50%; background: var(--neon-pink);
-            border: none; color: white; font-size: 1.2rem; cursor: pointer;
-            display: flex; justify-content: center; align-items: center; transition: all 0.3s;
-            box-shadow: 0 0 10px rgba(255, 0, 127, 0.6); flex-shrink: 0;
-        }
-        .music-btn:hover { background: #ff4d94; transform: rotate(15deg); }
-        .music-btn.playing { animation: pulse 1s infinite alternate; }
-        @keyframes pulse { 0% { box-shadow: 0 0 10px rgba(255, 0, 127, 0.6); } 100% { box-shadow: 0 0 25px rgba(255, 0, 127, 1); } }
-        .music-text { font-size: 0.8rem; color: var(--neon-blue); font-family: 'Yusei Magic', sans-serif; white-space: nowrap; margin-right: 5px; }
-        
-        .volume-container {
-            display: flex; align-items: center; width: 0; overflow: hidden;
-            transition: width 0.4s ease, opacity 0.4s ease; opacity: 0;
-        }
-        .music-player:hover .volume-container { width: 100px; opacity: 1; }
-
-        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; cursor: pointer; }
-        input[type=range]:focus { outline: none; }
-        input[type=range]::-webkit-slider-runnable-track {
-            width: 100%; height: 6px; background: rgba(0, 229, 255, 0.2);
-            border-radius: 3px; border: 1px solid rgba(0, 229, 255, 0.3);
-        }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%;
-            background: var(--neon-pink); margin-top: -6px;
-            box-shadow: 0 0 10px rgba(255, 0, 127, 0.8); transition: transform 0.2s;
-        }
-        input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
-        input[type=range]::-moz-range-track {
-            width: 100%; height: 6px; background: rgba(0, 229, 255, 0.2);
-            border-radius: 3px; border: 1px solid rgba(0, 229, 255, 0.3);
-        }
-        input[type=range]::-moz-range-thumb {
-            height: 16px; width: 16px; border: none; border-radius: 50%;
-            background: var(--neon-pink); box-shadow: 0 0 10px rgba(255, 0, 127, 0.8);
-        }
-
         /* --- Мобильное меню --- */
         .menu-toggle {
             display: none; position: fixed; top: 20px; left: 20px; z-index: 200;
@@ -385,33 +335,12 @@
             .content-container { padding: 80px 15px 80px; height: auto; }
             .content { padding: 25px; }
             h2 { font-size: 1.5rem; }
-            .music-player { bottom: 15px; right: 15px; padding: 6px 12px 6px 6px; }
-            .music-btn { width: 35px; height: 35px; font-size: 1rem; }
-            .music-player .volume-container { width: 80px; opacity: 1; }
         }
     </style>
 </head>
 <body>
 
     <div id="sakura-container"></div>
-
-    <!-- Плеер -->
-    <div class="music-player" id="musicPlayer">
-        <button class="music-btn" id="playBtn" title="Включить/Выключить музыку">
-            <svg id="iconPlay" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-            <svg id="iconPause" style="display:none;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-        </button>
-        <span class="music-text">♪ Lo-Fi</span>
-        <div class="volume-container">
-            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" title="Громкость">
-        </div>
-    </div>
-
-    <!-- АУДИО (Локальный файл music.mp3) -->
-    <audio id="bgMusic" loop>
-        <source src="music.mp3" type="audio/mpeg">
-        Ваш браузер не поддерживает аудио.
-    </audio>
 
     <button class="menu-toggle" id="menuToggle">✿ Меню</button>
 
@@ -712,11 +641,6 @@
             const sidebar = document.getElementById('sidebar');
             const menuToggle = document.getElementById('menuToggle');
             const sakuraContainer = document.getElementById('sakura-container');
-            const bgMusic = document.getElementById('bgMusic');
-            const playBtn = document.getElementById('playBtn');
-            const iconPlay = document.getElementById('iconPlay');
-            const iconPause = document.getElementById('iconPause');
-            const volumeSlider = document.getElementById('volumeSlider');
             const searchInput = document.getElementById('searchInput');
 
             // Сакура
@@ -742,31 +666,6 @@
                 }
             }
             createSakura();
-
-            // Громкость
-            bgMusic.volume = volumeSlider.value;
-            volumeSlider.addEventListener('input', (e) => {
-                bgMusic.volume = e.target.value;
-            });
-
-            // Музыка
-            playBtn.addEventListener('click', () => {
-                if (bgMusic.paused) {
-                    bgMusic.play().then(() => {
-                        iconPlay.style.display = 'none';
-                        iconPause.style.display = 'block';
-                        playBtn.classList.add('playing');
-                    }).catch(error => {
-                        console.error("Ошибка воспроизведения:", error);
-                        alert("❌ Музыка не найдена!\n\nУбедитесь, что файл 'music.mp3' лежит в одной папке с 'index.html'.\n\nЕсли файла нет — скачайте любой mp3 и назовите его music.mp3.");
-                    });
-                } else {
-                    bgMusic.pause();
-                    iconPlay.style.display = 'block';
-                    iconPause.style.display = 'none';
-                    playBtn.classList.remove('playing');
-                }
-            });
 
             // ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК
             navButtons.forEach(button => {
