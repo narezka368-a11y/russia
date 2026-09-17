@@ -159,13 +159,8 @@
             text-shadow: var(--glow-pink);
         }
 
-        /* Скрытие ненужных элементов при поиске */
-        .nav-list li.hidden {
-            display: none;
-        }
-        .category-title.hidden {
-            display: none;
-        }
+        .nav-list li.hidden { display: none; }
+        .category-title.hidden { display: none; }
 
         /* --- Контент --- */
         .content-container {
@@ -205,18 +200,13 @@
             pointer-events: none;
         }
 
-        .content.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-            z-index: 1;
-        }
+        .content.active { display: block; animation: fadeIn 0.5s ease; z-index: 1; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px) scale(0.98); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* Заголовки */
         .content h2 {
             font-family: 'Yusei Magic', sans-serif;
             color: var(--neon-blue);
@@ -251,7 +241,6 @@
             z-index: 2;
         }
 
-        /* Блоки с примерами */
         .example-block {
             background: rgba(0, 0, 0, 0.3);
             border-left: 4px solid var(--neon-pink);
@@ -289,11 +278,7 @@
         }
         .note strong { color: var(--neon-blue); }
 
-        .warning {
-            color: var(--neon-pink);
-            font-weight: bold;
-            text-shadow: var(--glow-pink);
-        }
+        .warning { color: var(--neon-pink); font-weight: bold; text-shadow: var(--glow-pink); }
 
         .box {
             border: 2px solid var(--neon-pink);
@@ -307,7 +292,6 @@
             background: rgba(255, 0, 127, 0.05);
         }
 
-        /* Таблицы */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -423,7 +407,7 @@
         </div>
     </div>
 
-    <!-- АУДИО -->
+    <!-- АУДИО (Локальный файл music.mp3) -->
     <audio id="bgMusic" loop>
         <source src="music.mp3" type="audio/mpeg">
         Ваш браузер не поддерживает аудио.
@@ -442,35 +426,29 @@
         </div>
 
         <ul class="nav-list" id="navList">
-            <!-- Категория 1 -->
             <li class="category-title">Безударные гласные</li>
             <li><button class="active" data-target="ortho1">№1 Безударные гласные в корне</button></li>
             <li><button data-target="ortho2">№2 Непроверяемые гласные</button></li>
             <li><button data-target="ortho12">№12 Чередование -ЛАГ-/-ЛОЖ-</button></li>
             <li><button data-target="ortho13">№13 Чередование -РАСТ-/-РОС-</button></li>
             
-            <!-- Категория 2 -->
             <li class="category-title">Согласные в корне</li>
             <li><button data-target="ortho3">№3 Проверяемые согласные</button></li>
             <li><button data-target="ortho4">№4 Непроизносимые согласные</button></li>
             
-            <!-- Категория 3 -->
             <li class="category-title">Гласные после шипящих</li>
             <li><button data-target="ortho5">№5 ЖИ-ШИ, ЧА-ЩА, ЧУ-ЩУ</button></li>
             <li><button data-target="ortho14">№14 О/Ё после шипящих</button></li>
             <li><button data-target="ortho15">№15 Ы/И после Ц</button></li>
             
-            <!-- Категория 4 -->
             <li class="category-title">Разделительные знаки</li>
             <li><button data-target="ortho6">№6 Разделительный Ь и Ъ</button></li>
             <li><button data-target="ortho8">№8 Ь после шипящих</button></li>
             
-            <!-- Категория 5 -->
             <li class="category-title">Правописание приставок</li>
             <li><button data-target="ortho10">№10 Неизменяемые приставки</button></li>
             <li><button data-target="ortho11">№11 Приставки на -З/-С</button></li>
             
-            <!-- Категория 6 -->
             <li class="category-title">Прочее</li>
             <li><button data-target="ortho7">№7 Предлоги</button></li>
             <li><button data-target="ortho9">№9 ЧК, ЧН, НЩ</button></li>
@@ -780,7 +758,7 @@
                         playBtn.classList.add('playing');
                     }).catch(error => {
                         console.error("Ошибка воспроизведения:", error);
-                        alert("❌ Музыка не найдена!\n\nУбедитесь, что файл 'music.mp3' лежит в одной папке с 'index.html'.");
+                        alert("❌ Музыка не найдена!\n\nУбедитесь, что файл 'music.mp3' лежит в одной папке с 'index.html'.\n\nЕсли файла нет — скачайте любой mp3 и назовите его music.mp3.");
                     });
                 } else {
                     bgMusic.pause();
@@ -800,7 +778,6 @@
                     const targetContent = document.getElementById(targetId);
                     if (targetContent) {
                         targetContent.classList.add('active');
-                        // Прокрутка контента вверх при переключении
                         document.querySelector('.content-container').scrollTop = 0;
                     }
                     if (window.innerWidth <= 900) sidebar.classList.remove('open');
@@ -814,7 +791,6 @@
                 
                 allListItems.forEach(item => {
                     if (item.classList.contains('category-title')) {
-                        // Скрываем заголовки категорий при поиске
                         item.classList.add('hidden');
                     } else {
                         const button = item.querySelector('button');
@@ -829,7 +805,6 @@
                     }
                 });
 
-                // Если поиск пуст, показываем все заголовки
                 if (query === '') {
                     document.querySelectorAll('.category-title').forEach(title => {
                         title.classList.remove('hidden');
