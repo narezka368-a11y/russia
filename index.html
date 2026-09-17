@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Орфограммы | Аниме-стиль</title>
-    <!-- Подключаем японский шрифт с поддержкой кириллицы -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Yusei+Magic&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -13,19 +12,13 @@
             --bg-light: #24243e;
             --neon-pink: #ff007f;
             --neon-blue: #00e5ff;
-            --neon-purple: #9d4edd;
             --text-main: #e0e0e0;
-            --text-dim: #a0a0a0;
             --card-bg: rgba(30, 30, 50, 0.85);
             --glow-pink: 0 0 10px rgba(255, 0, 127, 0.5), 0 0 20px rgba(255, 0, 127, 0.3);
             --glow-blue: 0 0 10px rgba(0, 229, 255, 0.5), 0 0 20px rgba(0, 229, 255, 0.3);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Noto Sans JP', sans-serif;
@@ -46,7 +39,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* --- Анимированные лепестки сакуры --- */
+        /* --- Сакура --- */
         .sakura {
             position: fixed;
             top: -10%;
@@ -59,7 +52,7 @@
             100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
         }
 
-        /* --- Боковое меню (Киберпанк-стиль) --- */
+        /* --- Меню --- */
         .sidebar {
             width: 300px;
             background: rgba(15, 12, 41, 0.95);
@@ -86,357 +79,198 @@
             text-align: center;
             letter-spacing: 2px;
         }
+        .sidebar h1 span { display: block; font-size: 0.8rem; color: var(--neon-pink); text-shadow: var(--glow-pink); }
 
-        .sidebar h1 span {
-            display: block;
-            font-size: 0.8rem;
-            color: var(--neon-pink);
-            text-shadow: var(--glow-pink);
-        }
-
-        .nav-list {
-            list-style: none;
-        }
-
+        .nav-list { list-style: none; }
         .nav-list li button {
-            width: 100%;
-            text-align: left;
-            padding: 14px 20px;
-            background: none;
-            border: none;
-            font-size: 0.95rem;
-            cursor: pointer;
-            color: var(--text-main);
-            border-left: 4px solid transparent;
-            transition: all 0.3s ease;
-            font-family: 'Noto Sans JP', sans-serif;
-            position: relative;
-            overflow: hidden;
+            width: 100%; text-align: left; padding: 14px 20px; background: none; border: none;
+            font-size: 0.95rem; cursor: pointer; color: var(--text-main);
+            border-left: 4px solid transparent; transition: all 0.3s ease;
+            font-family: 'Noto Sans JP', sans-serif; position: relative; overflow: hidden;
         }
-
-        .nav-list li button::before {
-            content: '▶';
-            position: absolute;
-            left: -20px;
-            opacity: 0;
-            color: var(--neon-pink);
-            transition: all 0.3s ease;
-        }
-
         .nav-list li button:hover {
-            background-color: rgba(255, 0, 127, 0.1);
-            border-left-color: var(--neon-pink);
-            color: #fff;
-            padding-left: 30px;
+            background-color: rgba(255, 0, 127, 0.1); border-left-color: var(--neon-pink);
+            color: #fff; padding-left: 30px;
         }
-
-        .nav-list li button:hover::before {
-            left: 10px;
-            opacity: 1;
-        }
-
         .nav-list li button.active {
             background: linear-gradient(90deg, rgba(255, 0, 127, 0.2), transparent);
-            border-left-color: var(--neon-pink);
-            font-weight: 700;
-            color: var(--neon-pink);
-            text-shadow: var(--glow-pink);
-        }
-
-        .nav-list li button.active::before {
-            content: '★';
-            left: 10px;
-            opacity: 1;
-            color: var(--neon-pink);
+            border-left-color: var(--neon-pink); font-weight: 700;
+            color: var(--neon-pink); text-shadow: var(--glow-pink);
         }
 
         /* --- Контент --- */
-        .content-container {
-            flex: 1;
-            padding: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            z-index: 2;
-        }
-
+        .content-container { flex: 1; padding: 30px; display: flex; justify-content: center; align-items: flex-start; z-index: 2; }
         .content {
-            width: 100%;
-            max-width: 850px;
-            background: var(--card-bg);
-            padding: 35px;
-            border-radius: 15px;
-            border: 1px solid rgba(0, 229, 255, 0.3);
+            width: 100%; max-width: 850px; background: var(--card-bg); padding: 35px;
+            border-radius: 15px; border: 1px solid rgba(0, 229, 255, 0.3);
             box-shadow: 0 0 30px rgba(0, 229, 255, 0.1), inset 0 0 20px rgba(0, 0, 0, 0.5);
-            display: none;
-            backdrop-filter: blur(15px);
-            position: relative;
-            overflow: hidden;
+            display: none; backdrop-filter: blur(15px); position: relative; overflow: hidden;
         }
-
         .content::after {
-            content: '文法';
-            position: absolute;
-            bottom: -20px;
-            right: -10px;
-            font-size: 120px;
-            font-family: 'Yusei Magic', sans-serif;
-            color: rgba(255, 255, 255, 0.03);
-            z-index: 0;
-            pointer-events: none;
+            content: '文法'; position: absolute; bottom: -20px; right: -10px;
+            font-size: 120px; font-family: 'Yusei Magic', sans-serif;
+            color: rgba(255, 255, 255, 0.03); z-index: 0; pointer-events: none;
         }
+        .content.active { display: block; animation: fadeIn 0.5s ease; z-index: 1; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .content.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-            z-index: 1;
-        }
+        h2 { font-family: 'Yusei Magic', sans-serif; color: var(--neon-blue); font-size: 1.8rem; margin-bottom: 25px; padding-bottom: 10px; border-bottom: 2px solid var(--neon-pink); display: inline-block; text-shadow: var(--glow-blue); position: relative; z-index: 2; }
+        p, ul, ol { position: relative; z-index: 2; margin-bottom: 15px; }
+        li { margin-bottom: 10px; margin-left: 20px; }
+        .example { color: var(--neon-blue); font-weight: 700; text-shadow: 0 0 5px rgba(0, 229, 255, 0.3); font-style: italic; }
+        .underline { text-decoration: underline; text-decoration-color: var(--neon-pink); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+        .box { border: 2px solid var(--neon-pink); padding: 2px 8px; border-radius: 6px; font-weight: bold; display: inline-block; margin: 0 4px; color: var(--neon-pink); box-shadow: inset 0 0 10px rgba(255, 0, 127, 0.2); background: rgba(255, 0, 127, 0.05); }
+        .note { background: rgba(0, 229, 255, 0.08); border-left: 4px solid var(--neon-blue); padding: 15px 20px; margin: 20px 0; border-radius: 0 10px 10px 0; position: relative; z-index: 2; box-shadow: 0 0 15px rgba(0, 229, 255, 0.1); }
+        .warning { color: var(--neon-pink); font-weight: bold; font-size: 1.2rem; text-shadow: var(--glow-pink); }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background: rgba(0, 0, 0, 0.3); border-radius: 10px; overflow: hidden; position: relative; z-index: 2; }
+        th, td { border: 1px solid rgba(0, 229, 255, 0.2); padding: 12px; text-align: center; }
+        th { background: rgba(255, 0, 127, 0.15); color: var(--neon-pink); font-weight: bold; text-transform: uppercase; }
+        td { color: var(--text-main); }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        h2 {
-            font-family: 'Yusei Magic', sans-serif;
-            color: var(--neon-blue);
-            font-size: 1.8rem;
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--neon-pink);
-            display: inline-block;
-            text-shadow: var(--glow-blue);
-            position: relative;
-            z-index: 2;
-        }
-
-        h3 {
-            margin-top: 25px;
-            margin-bottom: 15px;
-            color: var(--neon-pink);
-            font-size: 1.2rem;
-            text-shadow: var(--glow-pink);
-            position: relative;
-            z-index: 2;
-        }
-
-        p, ul, ol {
-            position: relative;
-            z-index: 2;
-            margin-bottom: 15px;
-        }
-
-        li {
-            margin-bottom: 10px;
-            margin-left: 20px;
-        }
-
-        .example {
-            color: var(--neon-blue);
-            font-weight: 700;
-            text-shadow: 0 0 5px rgba(0, 229, 255, 0.3);
-            font-style: italic;
-        }
-
-        .underline {
-            text-decoration: underline;
-            text-decoration-color: var(--neon-pink);
-            text-decoration-thickness: 2px;
-            text-underline-offset: 4px;
-        }
-
-        .box {
-            border: 2px solid var(--neon-pink);
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-weight: bold;
-            display: inline-block;
-            margin: 0 4px;
-            color: var(--neon-pink);
-            box-shadow: inset 0 0 10px rgba(255, 0, 127, 0.2);
-            background: rgba(255, 0, 127, 0.05);
-        }
-
-        .note {
-            background: rgba(0, 229, 255, 0.08);
-            border-left: 4px solid var(--neon-blue);
-            padding: 15px 20px;
-            margin: 20px 0;
-            border-radius: 0 10px 10px 0;
-            position: relative;
-            z-index: 2;
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.1);
-        }
-
-        .warning {
-            color: var(--neon-pink);
-            font-weight: bold;
-            font-size: 1.2rem;
-            text-shadow: var(--glow-pink);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-            z-index: 2;
-        }
-
-        th, td {
-            border: 1px solid rgba(0, 229, 255, 0.2);
-            padding: 12px;
-            text-align: center;
-        }
-
-        th {
-            background: rgba(255, 0, 127, 0.15);
-            color: var(--neon-pink);
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        td {
-            color: var(--text-main);
-        }
-
-        /* --- Плеер (Аниме-стиль) --- */
+        /* --- Плеер с громкостью --- */
         .music-player {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 999;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(15, 12, 41, 0.9);
-            border: 2px solid var(--neon-pink);
-            border-radius: 50px;
-            padding: 8px 15px 8px 8px;
-            box-shadow: var(--glow-pink);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+            position: fixed; bottom: 20px; right: 20px; z-index: 999;
+            display: flex; align-items: center; gap: 10px;
+            background: rgba(15, 12, 41, 0.95); border: 2px solid var(--neon-pink);
+            border-radius: 50px; padding: 8px 15px 8px 8px;
+            box-shadow: var(--glow-pink); backdrop-filter: blur(10px); transition: all 0.4s ease;
         }
-
         .music-player:hover {
             box-shadow: 0 0 20px rgba(255, 0, 127, 0.8), 0 0 40px rgba(255, 0, 127, 0.5);
-            transform: scale(1.05);
+            transform: scale(1.02);
+        }
+        
+        .music-btn {
+            width: 40px; height: 40px; border-radius: 50%; background: var(--neon-pink);
+            border: none; color: white; font-size: 1.2rem; cursor: pointer;
+            display: flex; justify-content: center; align-items: center; transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.6); flex-shrink: 0;
+        }
+        .music-btn:hover { background: #ff4d94; transform: rotate(15deg); }
+        .music-btn.playing { animation: pulse 1s infinite alternate; }
+        @keyframes pulse { 0% { box-shadow: 0 0 10px rgba(255, 0, 127, 0.6); } 100% { box-shadow: 0 0 25px rgba(255, 0, 127, 1); } }
+        
+        .music-text { 
+            font-size: 0.8rem; color: var(--neon-blue); 
+            font-family: 'Yusei Magic', sans-serif; white-space: nowrap; 
+            margin-right: 5px;
         }
 
-        .music-btn {
-            width: 40px;
-            height: 40px;
+        /* Скрытый слайдер громкости */
+        .volume-container {
+            display: flex;
+            align-items: center;
+            width: 0;
+            overflow: hidden;
+            transition: width 0.4s ease, opacity 0.4s ease;
+            opacity: 0;
+        }
+
+        /* При наведении на плеер - показываем слайдер */
+        .music-player:hover .volume-container {
+            width: 100px;
+            opacity: 1;
+        }
+
+        /* Стилизация ползунка */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        input[type=range]:focus { outline: none; }
+
+        /* Дорожка */
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            background: rgba(0, 229, 255, 0.2);
+            border-radius: 3px;
+            border: 1px solid rgba(0, 229, 255, 0.3);
+        }
+
+        /* Бегунок (звездочка) */
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
             border-radius: 50%;
             background: var(--neon-pink);
+            margin-top: -6px; /* Выравнивание по центру дорожки */
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.8);
+            transition: transform 0.2s;
+        }
+        
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        /* Для Firefox */
+        input[type=range]::-moz-range-track {
+            width: 100%;
+            height: 6px;
+            background: rgba(0, 229, 255, 0.2);
+            border-radius: 3px;
+            border: 1px solid rgba(0, 229, 255, 0.3);
+        }
+        input[type=range]::-moz-range-thumb {
+            height: 16px;
+            width: 16px;
             border: none;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s;
-            box-shadow: 0 0 10px rgba(255, 0, 127, 0.6);
-            position: relative;
-        }
-
-        .music-btn:hover {
-            background: #ff4d94;
-            transform: rotate(15deg);
-        }
-
-        .music-btn.playing {
-            animation: pulse 1s infinite alternate;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 10px rgba(255, 0, 127, 0.6); }
-            100% { box-shadow: 0 0 25px rgba(255, 0, 127, 1), 0 0 40px rgba(255, 0, 127, 0.6); }
-        }
-
-        .music-text {
-            font-size: 0.8rem;
-            color: var(--neon-blue);
-            font-family: 'Yusei Magic', sans-serif;
-            white-space: nowrap;
-        }
-
-        /* --- Адаптивность --- */
-        .menu-toggle {
-            display: none;
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 200;
-            background: rgba(15, 12, 41, 0.9);
-            color: var(--neon-pink);
-            border: 2px solid var(--neon-pink);
-            padding: 10px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            box-shadow: var(--glow-pink);
-            backdrop-filter: blur(5px);
-            transition: all 0.3s;
-        }
-
-        .menu-toggle:hover {
+            border-radius: 50%;
             background: var(--neon-pink);
-            color: #fff;
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.8);
         }
+
+        /* --- Мобильное меню --- */
+        .menu-toggle {
+            display: none; position: fixed; top: 20px; left: 20px; z-index: 200;
+            background: rgba(15, 12, 41, 0.9); color: var(--neon-pink);
+            border: 2px solid var(--neon-pink); padding: 10px 15px; border-radius: 8px;
+            cursor: pointer; font-size: 1.2rem; box-shadow: var(--glow-pink); backdrop-filter: blur(5px); transition: all 0.3s;
+        }
+        .menu-toggle:hover { background: var(--neon-pink); color: #fff; }
 
         @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-                position: fixed;
-                width: 280px;
-            }
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            .menu-toggle {
-                display: block;
-            }
-            .content-container {
-                padding: 80px 15px 80px;
-            }
-            .content {
-                padding: 20px;
-            }
+            .sidebar { transform: translateX(-100%); position: fixed; width: 280px; }
+            .sidebar.open { transform: translateX(0); }
+            .menu-toggle { display: block; }
+            .content-container { padding: 80px 15px 80px; }
+            .content { padding: 20px; }
             h2 { font-size: 1.4rem; }
-            .music-player {
-                bottom: 15px;
-                right: 15px;
-                padding: 6px 12px 6px 6px;
-            }
+            .music-player { bottom: 15px; right: 15px; padding: 6px 12px 6px 6px; }
             .music-btn { width: 35px; height: 35px; font-size: 1rem; }
+            /* На мобильных слайдер всегда виден, так как нет наведения мышкой */
+            .music-player .volume-container {
+                width: 80px;
+                opacity: 1;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Контейнер для лепестков сакуры (заполняется через JS) -->
     <div id="sakura-container"></div>
 
     <!-- Плеер -->
     <div class="music-player" id="musicPlayer">
         <button class="music-btn" id="playBtn" title="Включить/Выключить музыку">
-            <!-- Иконка Play (по умолчанию) -->
             <svg id="iconPlay" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-            <!-- Иконка Pause (скрыта) -->
             <svg id="iconPause" style="display:none;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
         </button>
-        <span class="music-text">♪ Lo-Fi Anime</span>
+        <span class="music-text">♪ Lo-Fi</span>
+        
+        <!-- Контейнер для ползунка громкости -->
+        <div class="volume-container">
+            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" title="Громкость">
+        </div>
     </div>
 
-    <!-- АУДИО ТЕГ -->
-    <!-- Ссылка на бесплатный лоу-фай трек (можно заменить на свой) -->
+    <!-- ВАЖНО: Ссылка на локальный файл music.mp3 -->
     <audio id="bgMusic" loop>
-        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
+        <source src="music.mp3" type="audio/mpeg">
         Ваш браузер не поддерживает аудио.
     </audio>
 
@@ -468,35 +302,26 @@
     </aside>
 
     <main class="content-container">
-        <!-- Орфограмма 1 -->
         <div id="ortho1" class="content active">
             <h2>Орфограмма №1</h2>
             <p>Чтобы не ошибиться в написании <strong>безударной гласной</strong> в корне слова, нужно изменить слово или подобрать проверочное однокоренное слово, в котором проверяемая гласная была под ударением.</p>
             <p class="example">Лесной — (лéс)</p>
         </div>
-
-        <!-- Орфограмма 2 -->
         <div id="ortho2" class="content">
             <h2>Орфограмма №2</h2>
             <p>Правописание безударных <strong>непроверяемых</strong> и <strong>непроверяемых согласных</strong> нужно запоминать.</p>
             <p class="example">Октябрь, футбол.</p>
         </div>
-
-        <!-- Орфограмма 3 -->
         <div id="ortho3" class="content">
             <h2>Орфограмма №3</h2>
             <p>Чтобы не ошибиться в написании <strong>согласных в корне слова</strong>, нужно их изменить (слово) или подобрать такое слово, где после этой буквы будет стоять гласная или согласные <em>л, м, н, р</em>.</p>
             <p class="example">Дуб — дубы, падеж — падежи.</p>
         </div>
-
-        <!-- Орфограмма 4 -->
         <div id="ortho4" class="content">
             <h2>Орфограмма №4</h2>
             <p>Чтобы не ошибиться в написании <strong>непроизносимых согласных</strong>, нужно изменить это слово так, чтобы этот согласный отчетливо слышался.</p>
             <p class="example">Устный — (уста), поздний — (опоздать).</p>
         </div>
-
-        <!-- Орфограмма 5 -->
         <div id="ortho5" class="content">
             <h2>Орфограмма №5</h2>
             <p>После шипящих <strong>Ж, Ч, Ш, Щ</strong> пишутся гласные <strong>И, У, А</strong>. Не пишутся <strong>Ы, Ю, Я</strong>.</p>
@@ -505,16 +330,12 @@
                 <p><strong>Исключения:</strong> <span class="example">Брошюра, парашют, жюри.</span></p>
             </div>
         </div>
-
-        <!-- Орфограмма 6 -->
         <div id="ortho6" class="content">
             <h2>Орфограмма №6</h2>
             <p><strong>Ъ</strong> пишется перед <strong>Е, Ё, Ю, Я</strong> после приставок на согласную.</p>
             <p><strong>Ь</strong> пишется в корне слова перед <strong>Е, Ё, Ю, Я, И</strong>.</p>
             <p><span class="box">Ъ</span> Е, Ё, Ю, Я <br> <span class="box">Ь</span> Е, Ё, Ю, Я, И</p>
         </div>
-
-        <!-- Орфограмма 7 -->
         <div id="ortho7" class="content">
             <h2>Орфограмма №7</h2>
             <p><strong>Предлоги</strong> с другими словами пишутся раздельно. Между предлогом и словом можно вставить другое слово.</p>
@@ -522,60 +343,44 @@
                 <p><strong>Вопрос:</strong> Большой? (Пример: <em>в большом лесу</em>)</p>
             </div>
         </div>
-
-        <!-- Орфограмма 8 -->
         <div id="ortho8" class="content">
             <h2>Орфограмма №8</h2>
             <p><strong>Ь</strong> после шипящих на конце слова пишется у существительных <strong>3 склонения</strong>. В других случаях <span class="warning">не пишется</span>.</p>
             <p class="example">Рожь (3 скл.), много туч (1 скл.).</p>
         </div>
-
-        <!-- Орфограмма 9 -->
         <div id="ortho9" class="content">
             <h2>Орфограмма №9</h2>
             <p>В сочетаниях <strong>ЧК, ЧН, ЧТ, ЩН, РЩ, НЩ</strong> не пишется мягкий знак.</p>
             <p class="example">Мощный, хищник, гонщик.</p>
         </div>
-
-        <!-- Орфограмма 10 -->
         <div id="ortho10" class="content">
             <h2>Орфограмма №10</h2>
             <p>Буквы на месте гласных и согласных <strong>в приставках</strong>, кроме приставок на -З (-С), пишутся одинаково независимо от произношения. Их можно проверить, подобрав другие слова с данной приставкой, где гласные и согласные в приставке находятся в сильной позиции.</p>
             <p class="example">Запахнуть — запах; подпись — подбежать.</p>
             <p><strong>Список приставок:</strong> <span class="example">за, в, об, под, над, с, от, пред, пере, за, на, во, об, подо, надо, со, ото.</span></p>
         </div>
-
-        <!-- Орфограмма 11 -->
         <div id="ortho11" class="content">
             <h2>Орфограмма №11</h2>
             <p>В приставках на <strong>-З (-С)</strong> перед буквами обозначающими <strong>звонкие согласные</strong>, пишется <strong>З</strong>, перед буквами, обозначающими <strong>глухие согласные</strong> — <strong>С</strong>.</p>
             <p class="example">Разбудить (перед звонкой); расписание (перед глухой).</p>
             <p><strong>Приставки:</strong> <span class="example">раз-рас, из-ис, воз-вос, без-бес, вз-вс, низ-нис.</span></p>
         </div>
-
-        <!-- Орфограмма 12 -->
         <div id="ortho12" class="content">
             <h2>Орфограмма №12</h2>
             <p>В чередующихся корнях <strong>-ЛАГ- / -ЛОЖ-</strong> в безударном положении <strong>А</strong> пишется тогда, когда после корня стоит суффикс <strong>-А-</strong>, в остальных случаях пишется <strong>О</strong>.</p>
             <p class="example">Изложение (нет -а-).</p>
         </div>
-
-        <!-- Орфограмма 13 -->
         <div id="ortho13" class="content">
             <h2>Орфограмма №13</h2>
             <p>В чередующихся корнях <strong>-РАСТ- (-РАЩ-) / -РОС-</strong> буква <strong>А</strong> пишется перед <strong>СТ, Щ</strong>. В остальных случаях пишется <strong>О</strong>.</p>
             <p class="example">Растение, Ростов, Ростислав, росточек. <br> <strong>Исключения:</strong> отрасль, росток, Ростов, Ростислав.</p>
             <p class="example">Василий быстро вырос, выросший росток, рост.</p>
         </div>
-
-        <!-- Орфограмма 14 -->
         <div id="ortho14" class="content">
             <h2>Орфограмма №14</h2>
             <p>После шипящих <strong>в корне слова</strong> пишется буква <strong>Ё</strong>, если можно подобрать однокоренное слово с <strong>Е</strong>. Если слово с <strong>Е</strong> подобрать нельзя, то в корне после шипящей пишем <strong>О</strong>.</p>
             <p class="example">Чёрный (чернеть), шёлковый (шелка), шорты (искл.)</p>
         </div>
-
-        <!-- Орфограмма 15 -->
         <div id="ortho15" class="content">
             <h2>Орфограмма №15</h2>
             <p>После <strong>Ц</strong> пишется <strong>И</strong>:</p>
@@ -590,8 +395,6 @@
                 <li>В словах - <strong>ИСКЛЮЧЕНИЯХ</strong>: <span class="example">цыган, цыпочки, цыц, цыпленок.</span></li>
             </ul>
         </div>
-
-        <!-- Орфограмма 16 -->
         <div id="ortho16" class="content">
             <h2>Орфограмма №16</h2>
             <p><strong>Имена собственные</strong> пишутся с большой буквы.</p>
@@ -600,17 +403,10 @@
                 <p>Издательство «Просвещение», журнал «Огонек».</p>
             </div>
         </div>
-
-        <!-- Орфограмма 17 -->
         <div id="ortho17" class="content">
             <h2>Орфограмма №17 (Падежи)</h2>
             <table>
-                <thead>
-                    <tr>
-                        <th>Падеж</th>
-                        <th>Вопросы</th>
-                    </tr>
-                </thead>
+                <thead><tr><th>Падеж</th><th>Вопросы</th></tr></thead>
                 <tbody>
                     <tr><td>И.п.</td><td>кто? что?</td></tr>
                     <tr><td>Р.п.</td><td>кого? чего?</td></tr>
@@ -625,14 +421,7 @@
                 <p>В словах на -ИЙ, -ИЯ, -ИЕ пишется <strong>И</strong>.</p>
             </div>
             <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>1 скл.</th>
-                        <th>2 скл.</th>
-                        <th>3 скл.</th>
-                    </tr>
-                </thead>
+                <thead><tr><th></th><th>1 скл.</th><th>2 скл.</th><th>3 скл.</th></tr></thead>
                 <tbody>
                     <tr><td>Р.п.</td><td>И (Ы)</td><td>—</td><td>И</td></tr>
                     <tr><td>Д.п.</td><td>Е</td><td>—</td><td>И</td></tr>
@@ -641,15 +430,11 @@
             </table>
             <p class="example">Поехал к бабушке (1 скл). Отдыхал в Индии (3 скл).</p>
         </div>
-
-        <!-- Орфограмма 18 -->
         <div id="ortho18" class="content">
             <h2>Орфограмма №18</h2>
             <p>После шипящих <strong>и Ц</strong> в окончаниях существительных пишется <strong>О</strong>, без ударения — <strong>Е</strong>.</p>
             <p class="example">Врачом, свинцом.</p>
         </div>
-
-        <!-- Орфограмма 19 -->
         <div id="ortho19" class="content">
             <h2>Орфограмма №19</h2>
             <p>Чтобы правильно написать <strong>окончание прилагательного</strong>, нужно задать к нему вопрос.</p>
@@ -669,47 +454,51 @@
             const playBtn = document.getElementById('playBtn');
             const iconPlay = document.getElementById('iconPlay');
             const iconPause = document.getElementById('iconPause');
+            const volumeSlider = document.getElementById('volumeSlider');
 
-            // --- Генерация лепестков сакуры ---
+            // Сакура
             function createSakura() {
-                const sakuraCount = 20; 
-                for (let i = 0; i < sakuraCount; i++) {
+                for (let i = 0; i < 20; i++) {
                     const sakura = document.createElement('div');
                     sakura.classList.add('sakura');
-                    
                     const size = Math.random() * 15 + 10; 
                     const left = Math.random() * 100; 
                     const duration = Math.random() * 5 + 5; 
                     const delay = Math.random() * 5; 
-
                     sakura.style.width = `${size}px`;
                     sakura.style.height = `${size}px`;
                     sakura.style.left = `${left}%`;
                     sakura.style.animationDuration = `${duration}s`;
                     sakura.style.animationDelay = `${delay}s`;
-                    
                     sakura.style.background = 'radial-gradient(circle at 30% 30%, #ffb7c5, #ff007f)';
                     sakura.style.borderRadius = '50% 0 50% 50%';
                     sakura.style.transform = `rotate(${Math.random() * 360}deg)`;
                     sakura.style.opacity = Math.random() * 0.5 + 0.3;
                     sakura.style.boxShadow = '0 0 5px rgba(255, 0, 127, 0.5)';
-
                     sakuraContainer.appendChild(sakura);
                 }
             }
             createSakura();
 
-            // --- Управление музыкой ---
-            // Примечание: некоторые браузеры (например, Chrome) блокируют автовоспроизведение,
-            // поэтому музыку нужно включать вручную.
+            // Установка начальной громкости
+            bgMusic.volume = volumeSlider.value;
+
+            // Изменение громкости через слайдер
+            volumeSlider.addEventListener('input', (e) => {
+                bgMusic.volume = e.target.value;
+            });
+
+            // Музыка (Локальный файл)
             playBtn.addEventListener('click', () => {
                 if (bgMusic.paused) {
-                    bgMusic.play().catch(error => {
-                        console.log("Автовоспроизведение заблокировано браузером:", error);
+                    bgMusic.play().then(() => {
+                        iconPlay.style.display = 'none';
+                        iconPause.style.display = 'block';
+                        playBtn.classList.add('playing');
+                    }).catch(error => {
+                        console.error("Ошибка воспроизведения:", error);
+                        alert("❌ Музыка не найдена!\n\nУбедитесь, что файл 'music.mp3' лежит в одной папке с 'index.html'.");
                     });
-                    iconPlay.style.display = 'none';
-                    iconPause.style.display = 'block';
-                    playBtn.classList.add('playing');
                 } else {
                     bgMusic.pause();
                     iconPlay.style.display = 'block';
@@ -718,31 +507,21 @@
                 }
             });
 
-            // --- Переключение вкладок ---
+            // Вкладки
             navButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     navButtons.forEach(btn => btn.classList.remove('active'));
                     contents.forEach(content => content.classList.remove('active'));
-
                     button.classList.add('active');
-
                     const targetId = button.getAttribute('data-target');
                     const targetContent = document.getElementById(targetId);
-                    if (targetContent) {
-                        targetContent.classList.add('active');
-                    }
-
-                    if (window.innerWidth <= 768) {
-                        sidebar.classList.remove('open');
-                    }
+                    if (targetContent) targetContent.classList.add('active');
+                    if (window.innerWidth <= 768) sidebar.classList.remove('open');
                 });
             });
 
-            // --- Мобильное меню ---
-            menuToggle.addEventListener('click', () => {
-                sidebar.classList.toggle('open');
-            });
-
+            // Меню
+            menuToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
             document.addEventListener('click', (event) => {
                 if (window.innerWidth <= 768) {
                     if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
