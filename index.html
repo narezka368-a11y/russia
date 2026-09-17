@@ -70,9 +70,15 @@
             height: 100vh;
             position: sticky;
             top: 0;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: margin-left 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 100;
             backdrop-filter: blur(10px);
+            flex-shrink: 0;
+        }
+
+        /* Класс для скрытия меню на десктопе */
+        .sidebar.hidden-desktop {
+            margin-left: -340px; /* Сдвигаем влево за экран */
         }
 
         .sidebar-header {
@@ -90,6 +96,21 @@
             letter-spacing: 2px;
         }
         .sidebar-header h1 span { display: block; font-size: 0.8rem; color: var(--neon-pink); text-shadow: var(--glow-pink); }
+
+        /* Кнопка скрытия меню (крестик) */
+        .sidebar-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: var(--neon-pink);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            text-shadow: var(--glow-pink);
+        }
+        .sidebar-close-btn:hover { transform: rotate(90deg) scale(1.2); }
 
         /* Переключатель тем */
         .theme-switcher {
@@ -243,6 +264,7 @@
             z-index: 2;
             overflow-y: auto;
             height: 100vh;
+            transition: padding 0.4s ease;
         }
 
         .content {
@@ -457,7 +479,7 @@
         }
         .flashcard-face.front .hint {
             font-size: 0.9rem;
-            color: var(--text-dim);
+            color: var(--text-dim, #a0a0a0);
             margin-top: 20px;
             font-family: 'Noto Sans JP', sans-serif;
             text-shadow: none;
@@ -516,7 +538,7 @@
             font-family: 'Yusei Magic', sans-serif;
         }
 
-        /* --- Мобильное меню --- */
+        /* --- Кнопки управления --- */
         .menu-toggle {
             display: none; position: fixed; top: 20px; left: 20px; z-index: 200;
             background: rgba(15, 12, 41, 0.9); color: var(--neon-pink);
@@ -525,16 +547,44 @@
         }
         .menu-toggle:hover { background: var(--neon-pink); color: #fff; }
 
+        /* Кнопка "Показать меню" (появляется, когда меню скрыто) */
+        .show-menu-btn {
+            display: none; /* Скрыта по умолчанию */
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 200;
+            background: rgba(15, 12, 41, 0.9);
+            color: var(--neon-pink);
+            border: 2px solid var(--neon-pink);
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: var(--glow-pink);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s;
+            animation: pulse 2s infinite;
+        }
+        .show-menu-btn:hover { background: var(--neon-pink); color: #fff; }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 10px rgba(255, 0, 127, 0.6); }
+            50% { box-shadow: 0 0 25px rgba(255, 0, 127, 1); }
+            100% { box-shadow: 0 0 10px rgba(255, 0, 127, 0.6); }
+        }
+
         @media (max-width: 900px) {
-            .sidebar { transform: translateX(-100%); position: fixed; width: 320px; }
+            .sidebar { transform: translateX(-100%); position: fixed; width: 320px; margin-left: 0; }
             .sidebar.open { transform: translateX(0); }
             .menu-toggle { display: block; }
+            .sidebar-close-btn { display: none; } /* На мобилке крестик не нужен, есть кнопка меню */
             .content-container { padding: 80px 15px 80px; height: auto; }
             .content { padding: 25px; }
             h2 { font-size: 1.5rem; }
             .flashcard-mode-btn { top: auto; bottom: 20px; right: 20px; padding: 8px 15px; font-size: 0.9rem; }
             .flashcard { height: 350px; }
             .flashcard-face.front { font-size: 1.4rem; }
+            .show-menu-btn { display: none !important; } /* На мобилке показываем через menu-toggle */
         }
     </style>
 </head>
@@ -542,12 +592,20 @@
 
     <div id="sakura-container"></div>
 
+    <!-- Кнопка "Показать меню" (появляется, когда меню скрыто на десктопе) -->
+    <button class="show-menu-btn" id="showMenuBtn">✿ Показать меню</button>
+
+    <!-- Кнопка мобильного меню -->
     <button class="menu-toggle" id="menuToggle">✿ Меню</button>
+    
+    <!-- Кнопка режима карточек -->
     <button class="flashcard-mode-btn" id="flashcardModeBtn">🎴 Режим карточек</button>
 
     <!-- БОКОВОЕ МЕНЮ -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
+            <!-- Кнопка скрытия меню на десктопе -->
+            <button class="sidebar-close-btn" id="sidebarCloseBtn" title="Скрыть меню">✕</button>
             <h1>日本語 <span>Справочник орфограмм</span></h1>
             <!-- Переключатель тем -->
             <div class="theme-switcher">
@@ -876,6 +934,25 @@
             const sakuraContainer = document.getElementById('sakura-container');
             const searchInput = document.getElementById('searchInput');
             const mainContent = document.getElementById('mainContent');
+            const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+            const showMenuBtn = document.getElementById('showMenuBtn');
+
+            // --- Управление скрытием меню ---
+            function hideSidebar() {
+                sidebar.classList.add('hidden-desktop');
+                showMenuBtn.style.display = 'block';
+            }
+
+            function showSidebar() {
+                sidebar.classList.remove('hidden-desktop');
+                showMenuBtn.style.display = 'none';
+            }
+
+            // Скрыть меню по крестику
+            sidebarCloseBtn.addEventListener('click', hideSidebar);
+
+            // Показать меню по кнопке
+            showMenuBtn.addEventListener('click', showSidebar);
 
             // --- Переключатель тем ---
             const themeDots = document.querySelectorAll('.theme-dot');
@@ -908,7 +985,7 @@
 
             favIcons.forEach(icon => {
                 icon.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Чтобы не открывалась орфограмма
+                    e.stopPropagation();
                     const id = icon.getAttribute('data-fav');
                     if (favorites.includes(id)) {
                         favorites = favorites.filter(f => f !== id);
@@ -917,7 +994,6 @@
                     }
                     localStorage.setItem('orthoFavorites', JSON.stringify(favorites));
                     updateFavIcons();
-                    // Если активен фильтр "Избранное", обновить список
                     const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
                     if (activeFilter === 'fav') {
                         filterList('fav');
@@ -982,7 +1058,7 @@
             // --- Переключение вкладок ---
             navButtons.forEach(button => {
                 button.addEventListener('click', (e) => {
-                    if (e.target.classList.contains('fav-icon')) return; // Если кликнули по звёздочке
+                    if (e.target.classList.contains('fav-icon')) return;
                     
                     navButtons.forEach(btn => btn.classList.remove('active'));
                     contents.forEach(content => content.classList.remove('active'));
@@ -1022,7 +1098,6 @@
                     document.querySelectorAll('.category-title').forEach(title => {
                         title.classList.remove('hidden');
                     });
-                    // Сбросить фильтр
                     const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
                     if (activeFilter === 'fav') filterList('fav');
                 }
@@ -1043,7 +1118,6 @@
             let flashcardMode = false;
             let currentCardIndex = 0;
 
-            // Собираем данные всех орфограмм
             const allOrthoData = [];
             mainContents.forEach(content => {
                 const id = content.id;
@@ -1065,7 +1139,6 @@
                 } else {
                     flashcardModeBtn.textContent = '🎴 Режим карточек';
                     flashcardContainer.classList.remove('active');
-                    // Показать первую орфограмму
                     mainContents[0].classList.add('active');
                 }
             });
@@ -1078,21 +1151,13 @@
                 if (allOrthoData.length === 0) return;
                 const data = allOrthoData[currentCardIndex];
                 flashcard.classList.remove('flipped');
-                
-                // Front
                 fcFrontText.textContent = data.title;
-                
-                // Back
                 fcBackTitle.textContent = data.title;
                 let backContent = `<p class="rule-text" style="font-size:1rem; border:none; padding:0;">${data.rule}</p>`;
                 if (data.examples) backContent += data.examples;
                 if (data.note) backContent += data.note;
                 fcBackText.innerHTML = backContent;
-                
-                // Progress
                 fcProgress.textContent = `Карточка ${currentCardIndex + 1} из ${allOrthoData.length}`;
-                
-                // Buttons
                 fcPrev.disabled = currentCardIndex === 0;
                 fcNext.disabled = currentCardIndex === allOrthoData.length - 1;
             }
