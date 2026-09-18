@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+6<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -7,13 +7,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Yusei+Magic&display=swap" rel="stylesheet">
     <style>
         :root {
-            --neon-pink: #ff007f;
-            --neon-blue: #00e5ff;
-            --neon-purple: #9d4edd;
-            --text-main: #f0f0f0;
-            --card-bg: rgba(15, 12, 41, 0.85); /* Более плотный фон для карточек, чтобы читались на фото */
-            --glow-pink: 0 0 10px rgba(255, 0, 127, 0.5), 0 0 20px rgba(255, 0, 127, 0.3);
-            --glow-blue: 0 0 10px rgba(0, 229, 255, 0.5), 0 0 20px rgba(0, 229, 255, 0.3);
+            /* Тёплая палитра под матрёшек */
+            --neon-pink: #ff6b35;      /* Оранжево-красный */
+            --neon-blue: #ffd166;      /* Золотисто-жёлтый */
+            --neon-purple: #c77dff;    /* Фиолетовый */
+            --text-main: #f5f0e8;      /* Тёплый белый */
+            --card-bg: rgba(26, 20, 15, 0.88); /* Тёмно-коричневый полупрозрачный */
+            --glow-pink: 0 0 10px rgba(255, 107, 53, 0.6), 0 0 20px rgba(255, 107, 53, 0.3);
+            --glow-blue: 0 0 10px rgba(255, 209, 102, 0.6), 0 0 20px rgba(255, 209, 102, 0.3);
         }
 
         /* Темы */
@@ -32,27 +33,27 @@
             overflow-x: hidden;
             position: relative;
             
-            /* --- ФОН ИЗ ФОТО ПШЕНИЦЫ --- */
-            background-image: url('wheat.jpg');
+            /* --- ФОН ИЗ ФОТО МАТРЁШЕК --- */
+            background-image: url('matreshka.jpg');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed; /* Фото не прокручивается, создавая эффект глубины */
+            background-attachment: fixed;
             background-repeat: no-repeat;
             
             transition: --neon-pink 0.5s, --neon-blue 0.5s;
         }
 
-        /* Затемнение поверх фото, чтобы текст и меню читались */
+        /* Лёгкое затемнение поверх фото для читаемости */
         body::before {
             content: '';
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(10, 8, 20, 0.65); /* Тёмное затемнение */
+            background: rgba(15, 10, 5, 0.65); /* Тёплое затемнение */
             z-index: -1;
             pointer-events: none;
         }
 
-        /* --- Сакура (теперь золотая, под цвет пшеницы) --- */
+        /* --- Лепестки (теперь золотые, как на матрёшках) --- */
         .sakura {
             position: fixed;
             top: -10%;
@@ -68,9 +69,9 @@
         /* --- Боковое меню --- */
         .sidebar {
             width: 340px;
-            background: rgba(15, 12, 41, 0.92); /* Полупрозрачное меню */
+            background: rgba(26, 20, 15, 0.95); /* Тёмно-коричневое */
             border-right: 2px solid var(--neon-pink);
-            box-shadow: 5px 0 25px rgba(255, 0, 127, 0.2);
+            box-shadow: 5px 0 25px rgba(255, 107, 53, 0.3);
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -132,7 +133,7 @@
         }
         .theme-dot:hover { transform: scale(1.2); border-color: #fff; }
         .theme-dot.active { border-color: #fff; box-shadow: 0 0 10px currentColor; }
-        .dot-pink { background: #ff007f; color: #ff007f; }
+        .dot-pink { background: #ff6b35; color: #ff6b35; }
         .dot-blue { background: #00e5ff; color: #00e5ff; }
         .dot-purple { background: #9d4edd; color: #9d4edd; }
         .dot-green { background: #00ff88; color: #00ff88; }
@@ -145,7 +146,7 @@
             width: 100%;
             padding: 10px 15px;
             border-radius: 20px;
-            border: 1px solid rgba(0, 229, 255, 0.3);
+            border: 1px solid rgba(255, 209, 102, 0.3);
             background: rgba(0, 0, 0, 0.4);
             color: white;
             font-family: 'Noto Sans JP', sans-serif;
@@ -154,7 +155,7 @@
         }
         .search-box input:focus {
             border-color: var(--neon-pink);
-            box-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
+            box-shadow: 0 0 10px rgba(255, 107, 53, 0.3);
         }
         .search-box input::placeholder { color: rgba(255,255,255,0.3); }
 
@@ -177,10 +178,10 @@
             font-family: 'Noto Sans JP', sans-serif;
         }
         .filter-btn.active {
-            background: rgba(255, 0, 127, 0.2);
+            background: rgba(255, 107, 53, 0.2);
             border-color: var(--neon-pink);
             color: var(--neon-pink);
-            box-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
+            box-shadow: 0 0 10px rgba(255, 107, 53, 0.3);
         }
         .filter-btn:hover { border-color: var(--neon-blue); }
 
@@ -201,7 +202,7 @@
             letter-spacing: 2px;
             color: var(--neon-purple);
             font-weight: 700;
-            border-bottom: 1px solid rgba(157, 78, 221, 0.2);
+            border-bottom: 1px solid rgba(199, 125, 255, 0.2);
             margin-bottom: 5px;
         }
 
@@ -237,14 +238,14 @@
         .nav-list li button .fav-icon:hover { color: gold; }
 
         .nav-list li button:hover {
-            background-color: rgba(255, 0, 127, 0.1);
+            background-color: rgba(255, 107, 53, 0.1);
             border-left-color: var(--neon-pink);
             color: #fff;
             padding-left: 25px;
         }
 
         .nav-list li button.active {
-            background: linear-gradient(90deg, rgba(255, 0, 127, 0.2), transparent);
+            background: linear-gradient(90deg, rgba(255, 107, 53, 0.25), transparent);
             border-left-color: var(--neon-pink);
             font-weight: 700;
             color: var(--neon-pink);
@@ -272,8 +273,8 @@
             background: var(--card-bg);
             padding: 40px;
             border-radius: 15px;
-            border: 1px solid rgba(0, 229, 255, 0.3);
-            box-shadow: 0 0 30px rgba(0, 229, 255, 0.1), inset 0 0 20px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 209, 102, 0.3);
+            box-shadow: 0 0 30px rgba(255, 107, 53, 0.15), inset 0 0 20px rgba(0, 0, 0, 0.5);
             display: none;
             backdrop-filter: blur(15px);
             position: relative;
@@ -287,7 +288,7 @@
             right: -10px;
             font-size: 150px;
             font-family: 'Yusei Magic', sans-serif;
-            color: rgba(255, 255, 255, 0.03);
+            color: rgba(255, 209, 102, 0.04);
             z-index: 0;
             pointer-events: none;
         }
@@ -315,7 +316,7 @@
 
         .content h2 .badge {
             font-size: 0.8rem;
-            background: rgba(255, 0, 127, 0.2);
+            background: rgba(255, 107, 53, 0.2);
             border: 1px solid var(--neon-pink);
             color: var(--neon-pink);
             padding: 2px 10px;
@@ -342,7 +343,7 @@
             margin: 15px 0;
             position: relative;
             z-index: 2;
-            box-shadow: 0 0 15px rgba(255, 0, 127, 0.1);
+            box-shadow: 0 0 15px rgba(255, 107, 53, 0.15);
         }
         .example-block strong {
             color: var(--neon-pink);
@@ -356,18 +357,18 @@
             color: var(--neon-blue);
             font-weight: 700;
             font-style: italic;
-            text-shadow: 0 0 5px rgba(0, 229, 255, 0.3);
+            text-shadow: 0 0 5px rgba(255, 209, 102, 0.3);
         }
 
         .note {
-            background: rgba(0, 229, 255, 0.08);
+            background: rgba(255, 209, 102, 0.08);
             border-left: 4px solid var(--neon-blue);
             padding: 15px 20px;
             margin: 20px 0;
             border-radius: 0 10px 10px 0;
             position: relative;
             z-index: 2;
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.1);
+            box-shadow: 0 0 15px rgba(255, 209, 102, 0.1);
         }
         .note strong { color: var(--neon-blue); }
 
@@ -381,8 +382,8 @@
             display: inline-block;
             margin: 0 4px;
             color: var(--neon-pink);
-            box-shadow: inset 0 0 10px rgba(255, 0, 127, 0.2);
-            background: rgba(255, 0, 127, 0.05);
+            box-shadow: inset 0 0 10px rgba(255, 107, 53, 0.2);
+            background: rgba(255, 107, 53, 0.05);
         }
 
         table {
@@ -396,12 +397,12 @@
             z-index: 2;
         }
         th, td {
-            border: 1px solid rgba(0, 229, 255, 0.2);
+            border: 1px solid rgba(255, 209, 102, 0.2);
             padding: 12px;
             text-align: center;
         }
         th {
-            background: rgba(255, 0, 127, 0.15);
+            background: rgba(255, 107, 53, 0.15);
             color: var(--neon-pink);
             font-weight: bold;
             text-transform: uppercase;
@@ -418,7 +419,7 @@
             top: 20px;
             right: 20px;
             z-index: 150;
-            background: rgba(15, 12, 41, 0.9);
+            background: rgba(26, 20, 15, 0.95);
             color: var(--neon-blue);
             border: 2px solid var(--neon-blue);
             padding: 10px 20px;
@@ -430,7 +431,7 @@
         }
         .flashcard-mode-btn:hover {
             background: var(--neon-blue);
-            color: #0f0c29;
+            color: #1a140f;
             transform: scale(1.05);
         }
 
@@ -466,8 +467,8 @@
             padding: 40px;
             text-align: center;
             border: 2px solid var(--neon-pink);
-            box-shadow: 0 0 30px rgba(255, 0, 127, 0.3);
-            background: rgba(15, 12, 41, 0.95);
+            box-shadow: 0 0 30px rgba(255, 107, 53, 0.3);
+            background: rgba(26, 20, 15, 0.97);
             backdrop-filter: blur(15px);
         }
         .flashcard-face.front {
@@ -510,7 +511,7 @@
         }
         .flashcard-controls button {
             padding: 12px 30px;
-            background: rgba(15, 12, 41, 0.9);
+            background: rgba(26, 20, 15, 0.95);
             color: var(--neon-pink);
             border: 2px solid var(--neon-pink);
             border-radius: 50px;
@@ -540,7 +541,7 @@
         /* --- Кнопки управления меню --- */
         .menu-toggle {
             display: none; position: fixed; top: 20px; left: 20px; z-index: 200;
-            background: rgba(15, 12, 41, 0.9); color: var(--neon-pink);
+            background: rgba(26, 20, 15, 0.95); color: var(--neon-pink);
             border: 2px solid var(--neon-pink); padding: 10px 15px; border-radius: 8px;
             cursor: pointer; font-size: 1.2rem; box-shadow: var(--glow-pink); backdrop-filter: blur(5px);
         }
@@ -552,7 +553,7 @@
             top: 20px;
             left: 20px;
             z-index: 200;
-            background: rgba(15, 12, 41, 0.9);
+            background: rgba(26, 20, 15, 0.95);
             color: var(--neon-pink);
             border: 2px solid var(--neon-pink);
             padding: 10px 15px;
@@ -566,9 +567,9 @@
         }
         .show-menu-btn:hover { background: var(--neon-pink); color: #fff; }
         @keyframes pulse {
-            0% { box-shadow: 0 0 10px rgba(255, 0, 127, 0.6); }
-            50% { box-shadow: 0 0 25px rgba(255, 0, 127, 1); }
-            100% { box-shadow: 0 0 10px rgba(255, 0, 127, 0.6); }
+            0% { box-shadow: 0 0 10px rgba(255, 107, 53, 0.6); }
+            50% { box-shadow: 0 0 25px rgba(255, 107, 53, 1); }
+            100% { box-shadow: 0 0 10px rgba(255, 107, 53, 0.6); }
         }
 
         @media (max-width: 900px) {
@@ -603,7 +604,7 @@
             <button class="sidebar-close-btn" id="sidebarCloseBtn" title="Скрыть меню">✕</button>
             <h1>日本語 <span>Справочник орфограмм</span></h1>
             <div class="theme-switcher">
-                <div class="theme-dot dot-pink active" data-theme="pink" title="Розовая"></div>
+                <div class="theme-dot dot-pink active" data-theme="pink" title="Тёплая"></div>
                 <div class="theme-dot dot-blue" data-theme="blue" title="Голубая"></div>
                 <div class="theme-dot dot-purple" data-theme="purple" title="Фиолетовая"></div>
                 <div class="theme-dot dot-green" data-theme="green" title="Зелёная"></div>
@@ -1033,7 +1034,7 @@
                     sakura.style.left = `${left}%`;
                     sakura.style.animationDuration = `${duration}s`;
                     sakura.style.animationDelay = `${delay}s`;
-                    // Золотой градиент под цвет пшеницы
+                    // Золотой градиент под матрёшек
                     sakura.style.background = 'radial-gradient(circle at 30% 30%, #ffe066, #ffb300)';
                     sakura.style.borderRadius = '50% 0 50% 50%';
                     sakura.style.transform = `rotate(${Math.random() * 360}deg)`;
